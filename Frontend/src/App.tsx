@@ -1,10 +1,10 @@
 import React from 'react';
-import LoginPg from './routes/LoginPg';
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
 
 const App: React.FC = () => {
   return (
-    <LoginPg/>
+    //If we end up using this we could use it for constant formatting
+    //For example:  If we have a navbar that will always show up we can put it here and then change the router slightly
+    <App />
   );
 };
 
