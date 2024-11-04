@@ -14,7 +14,7 @@ const getUser = asyncHandler(async (req, res) => {
     console.log(userInput.username + " " + userInput.password);
 
     const currUser = await User.findOne({
-      username: "",
+      username: userInput.username,
       password: userInput.password
     });
 
