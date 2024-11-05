@@ -2,7 +2,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-image: url('../assets/shirt.jpeg');
+  background-image: url('../assets/wall.jpeg');
   background-size: cover;
   background-position: center;
   font-family: Arial, Helvetica, sans-serif;
@@ -13,9 +13,61 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+
+.card {
+  width: 36rem;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to bottom, black, gray);
+  border-radius: 25px;
+  border: 2px solid black;
+}
+
+.logo{
+  height: 20vh;
+  border-radius: 50%;
+  border-style: groove ridge ridge groove;
+  border-color: purple;
+
+}
+
+.form-control {
+  background-color: white;
+  color: black;
+  border-color: white;
+  margin: 20px;
+  height: 3vh;
+}
+
+.links{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-link {
+  color: white;
+  text-decoration: underline;
+}
+
+.email-link{
+  color: white;
+  text-decoration: underline;
+}
+
+/* link effects */
+
+.signup-link:hover{
+  color: purple;
+}
+
+.email-link:hover{
+  color: purple;
 }

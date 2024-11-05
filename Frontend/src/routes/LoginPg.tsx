@@ -1,85 +1,117 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import '../style/LoginPg.css';
+import logo from '../assets/logo.jpg';
+
+interface FormValues {
+  username: string;
+  password: string;
+}
+
+interface FormErrors {
+  username?: string;
+  password?: string;
+}
 
 const LoginPg: React.FC = () => {
+  const initialValues: FormValues = { username: "", password: "" };
+  const [formValues, setFormValues] = useState<FormValues>(initialValues);
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
+  };
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log("Form submitted successfully:", formValues);
+    }
+  }, [formErrors, isSubmit, formValues]);
+
+  const validate = (values: FormValues): FormErrors => {
+    const errors: FormErrors = {};
+    if (!values.username) {
+      errors.username = "Username is required!";
+    }
+    if (!values.password) {
+      errors.password = "Password is required!";
+    }
+    return errors;
+  };
+
   return (
     <section className="Login">
-      <Container 
-        className="d-flex justify-content-center align-items-center" 
-        style={{ 
-          height: '45vh', 
-          display: 'flex'
-        }}
-      >
-        <Card 
-          style={{ 
-            width: '36rem', 
-            padding: '20px', 
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
-            background: 'linear-gradient(to bottom, black, gray)',
-            borderRadius: '25px',
-            border: '2px solid black',
-          }}
-        >
+      <Container>
+        <Card className="card">
           <Card.Body className="d-flex flex-column align-items-center"> 
-            <Card.Title className="text-center mb-4" style={{color: 'white', fontWeight:'bold', fontSize: '4rem'}}>
-              Steeze
-            </Card.Title>
-            <Form className="loginForm"> 
-              <Form.Group controlId="formEmail" className="mb-3">
-                <Form.Control 
-                  type="email" 
-                  placeholder="Enter email" 
-                  style={{ 
-                    backgroundColor: 'white', 
-                    color: 'black', 
-                    borderColor: 'white' , 
-                    margin: '20px',
-                    height: '3vh',
-                  }} 
+            <img src={logo} alt="Steeze logo" className="logo" />
+
+            <Form className="loginForm" onSubmit={handleSubmit}> 
+              <Form.Group controlId="formUser" className="mb-3">
+                <input
+                  type="text" 
+                  name="username"
+                  placeholder="Username" 
+                  className="form-control" 
+                  value={formValues.username}
+                  onChange={handleChange}
                 />
               </Form.Group>
+              {formErrors.username && <p className="error-text">{formErrors.username}</p>}
 
               <Form.Group controlId="formPassword" className="mb-4">
-                <Form.Control 
-                  type="password" 
+                <input
+                  type="password"
+                  name="password" 
                   placeholder="Password" 
-                  style={{ 
-                    backgroundColor: 'white', 
-                    color: 'black', 
-                    borderColor: 'white' , 
-                    margin: '20px',
-                    height: '3vh'
-                  }} 
+                  className="form-control" 
+                  value={formValues.password}
+                  onChange={handleChange}
                 />
               </Form.Group>
+              {formErrors.password && <p className="error-text">{formErrors.password}</p>}
 
               <Button 
                 variant="primary" 
                 type="submit" 
-                className="w-100"
-                style={{ 
-                  backgroundColor: 'white',  
-                  transition: 'background-color 0.3s',
-                  width: '8rem',
-                  height: '3rem',
+                className="w-100 login-button"
+                style={{
+                  transition: 'background-color 0.3s, border-color 0.3s',
+                  width: '6rem',
+                  height: '2rem',
                   borderWidth: '2px',
-                  borderStyle: 'solid',
-                  borderColor: 'black'
-                }} 
+                  borderColor: 'black',
+                }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'black';
-                  e.currentTarget.style.backgroundColor = 'white';
+                  e.currentTarget.style.backgroundColor = 'black';
+                  e.currentTarget.style.color = 'white';
                 }} 
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'white';
                   e.currentTarget.style.backgroundColor = 'white';
+                  e.currentTarget.style.color = 'black';
                 }} 
               >
                 Login
               </Button>
             </Form>
+            
+            <div className="links">
+              <Link to="/signup" className="signup-link">
+                Don’t have an account? Sign Up
+              </Link>
+              <Link to="/email" className="email-link">
+                Forgot your password?
+              </Link>
+            </div>
           </Card.Body>
         </Card>
       </Container>
