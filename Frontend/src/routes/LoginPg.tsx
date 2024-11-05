@@ -1,8 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import '../style/LoginPg.css';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPg: React.FC = () => {
+  //useNavigate hook
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  //Username and password state handlers
+  function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
+    setEmail(em => e.target.value);
+    console.log(email);
+  }
+
+  function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
+    setPassword(pw => e.target.value);
+    console.log(password);
+  }
+
+  //Form submission
+  function submitCredentials(e: React.FormEvent) {
+    e.preventDefault();
+
+    //temporary user object that is used to interact with the API
+    const tempUser = {
+      email: email,
+      password: password
+    }
+
+    //Fetch function call
+    loginUser(tempUser).then(data => {
+      console.log(data);
+
+      //React-router-dom navigation
+      navigate("/");
+    }).catch(err => {
+      console.log(err);
+    });
+  }
+
+  //Async fetch call to login
+  async function loginUser(currUser: object) {
+
+    //Make sure to change the url when it goes on the server
+
+    //stores the response from the api in a variable
+    const resp = await fetch("http://localhost:8000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(currUser)
+    });
+
+    //If the resp did not send back the expected data it throws an error
+    //otherwise it will return the response
+    if (resp.status == 500) {
+      throw new Error(resp.message);
+    } else {
+      return resp;
+    }
+  }
+
   return (
     <section className="Login">
       <Container
@@ -26,9 +88,10 @@ const LoginPg: React.FC = () => {
             <Card.Title className="text-center mb-4" style={{ color: 'white', fontWeight: 'bold', fontSize: '4rem' }}>
               Steeze
             </Card.Title>
-            <Form className="loginForm">
+            <Form className="loginForm" onSubmit={submitCredentials}>
               <Form.Group controlId="formEmail" className="mb-3">
                 <Form.Control
+                  onChange={handleEmail}
                   type="email"
                   placeholder="Enter email"
                   style={{
@@ -43,6 +106,7 @@ const LoginPg: React.FC = () => {
 
               <Form.Group controlId="formPassword" className="mb-4">
                 <Form.Control
+                  onChange={handlePassword}
                   type="password"
                   placeholder="Password"
                   style={{

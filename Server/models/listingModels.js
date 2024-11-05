@@ -1,6 +1,6 @@
 
 
-class listing {
+class Listing {
     constructor(n, s, t, p, b, c, cond, charCount, tagCount) {
 
         //User Input via API call
@@ -33,7 +33,7 @@ class listing {
     }
 }
 
-class dePopListing extends listing {
+class DePopListing extends Listing {
     constructor(n, s, t, p, d, b, c, cond, age) {
         super(n, s, t, p, d, b, c, cond);
 
@@ -43,7 +43,7 @@ class dePopListing extends listing {
     //Methods
 
 }
-class eBayListing extends listing {
+class EbayListing extends Listing {
     constructor(n, s, t, p, d, b, c, cond, team, player, gender) {
         super(n, s, t, p, d, b, c, cond);
 
@@ -55,7 +55,7 @@ class eBayListing extends listing {
     //Methods
 
 }
-class grailedListing extends listing {
+class GrailedListing extends Listing {
     constructor(n, s, t, p, d, b, c, cond, gender, fp) {
         super(n, s, t, p, d, b, c, cond);
 

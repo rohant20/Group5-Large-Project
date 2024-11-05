@@ -7,21 +7,25 @@ const getUser = asyncHandler(async (req, res) => {
   try {
     console.log(User.find({}));
     const userInput = {
-      username: req.body.username,
+      email: req.body.email,
       password: req.body.password
     }
 
-    console.log(userInput.username + " " + userInput.password);
+    console.log(userInput.email + " " + userInput.password);
 
     const currUser = await User.findOne({
-      username: userInput.username,
+      email: userInput.email,
       password: userInput.password
     });
 
+    if (currUser == null) {
+      res.status(500).json({ message: "Account not found" })
+    } else {
+      console.log(currUser);
 
-    console.log(currUser);
+      res.status(200).json(currUser);
+    }
 
-    res.status(200).json(currUser);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
