@@ -5,7 +5,7 @@ const { User } = require("../models/userModel");
 
 const getUser = asyncHandler(async (req, res) => {
   try {
-    console.log(User.find({}));
+
     const userInput = {
       email: req.body.email,
       password: req.body.password
@@ -17,12 +17,12 @@ const getUser = asyncHandler(async (req, res) => {
       email: userInput.email,
       password: userInput.password
     });
+    console.log(currUser);
 
     if (currUser == null) {
       res.status(500).json({ message: "Account not found" })
     } else {
       console.log(currUser);
-
       res.status(200).json(currUser);
     }
 

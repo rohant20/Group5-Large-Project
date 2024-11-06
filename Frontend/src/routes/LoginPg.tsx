@@ -3,7 +3,14 @@ import { Container, Form, Button, Card } from 'react-bootstrap';
 import '../style/LoginPg.css';
 import { useNavigate } from 'react-router-dom';
 
+import { useContext } from 'react';
+import { PathContext } from '../utils/PathProvider';
+
 const LoginPg: React.FC = () => {
+  //Context hook that grabs out path
+  const serverPath: string = useContext(PathContext);
+  console.log(serverPath);
+
   //useNavigate hook
   const navigate = useNavigate();
 
@@ -44,11 +51,11 @@ const LoginPg: React.FC = () => {
 
   //Async fetch call to login
   async function loginUser(currUser: object) {
-
+    console.log(currUser);
     //Make sure to change the url when it goes on the server
-
+    const apiURL = serverPath + "login"
     //stores the response from the api in a variable
-    const resp = await fetch("http://localhost:8000/login", {
+    const resp = await fetch(apiURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -56,12 +63,13 @@ const LoginPg: React.FC = () => {
       body: JSON.stringify(currUser)
     });
 
+    const userInfo = await resp.json();
     //If the resp did not send back the expected data it throws an error
     //otherwise it will return the response
     if (resp.status == 500) {
-      throw new Error(resp.message);
+      throw new Error(userInfo.message);
     } else {
-      return resp;
+      return userInfo;
     }
   }
 
