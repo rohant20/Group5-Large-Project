@@ -8,6 +8,7 @@ import SignUp from './routes/SignUp.tsx';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import PathProvider from './utils/PathProvider.tsx';
+import AuthProvider from './utils/AuthProvider.tsx';
 
 const router = createBrowserRouter([
   {
@@ -26,10 +27,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <PathProvider>
-      <RouterProvider router={router} />
-    </PathProvider>
-
+    <AuthProvider>
+      <PathProvider>
+        <RouterProvider router={router} />
+      </PathProvider>
+    </AuthProvider>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"

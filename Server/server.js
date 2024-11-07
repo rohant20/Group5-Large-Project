@@ -28,7 +28,7 @@ mongoose.connect("mongodb+srv://root:GroupFive5@cop4331db.jh3zx.mongodb.net/?ret
     app.use(cors({
         credentials: true,
         //Change this if your port is different when dev testing
-        origin: "http://www.steezee.xyz"
+        origin: "http://localhost:5173"
     }));
 
     //JSON formatting middleware provided by Express

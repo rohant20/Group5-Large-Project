@@ -5,11 +5,19 @@ import { useNavigate } from 'react-router-dom';
 
 import { useContext } from 'react';
 import { PathContext } from '../utils/PathProvider';
+import { AuthContext } from '../utils/AuthProvider';
 
 const LoginPg: React.FC = () => {
   //Context hook that grabs environemnt path
   const serverPath: string = useContext(PathContext);
-  console.log(serverPath);
+
+  const authInfo = useContext(AuthContext);
+
+  if (!authInfo) {
+    throw new Error("useContext must be used within an AuthProvider");
+  }
+
+  const { login } = authInfo;
 
   //useNavigate hook
   const navigate = useNavigate();
@@ -41,7 +49,7 @@ const LoginPg: React.FC = () => {
     //Fetch function call
     loginUser(tempUser).then(data => {
       console.log(data);
-
+      login(data.username, data._id);
       //React-router-dom navigation
       navigate("/");
     }).catch(err => {
