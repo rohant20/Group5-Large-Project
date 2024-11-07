@@ -2,11 +2,12 @@ import React from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.jpg';
+import '../style/EmailPg.css';
 
 
 const EmailPg: React.FC = () => {
   return (
-    <section className="Login">
+    <section className="Email">
       <Container>
         <Card className="card">
           <Card.Body className="d-flex flex-column align-items-center"> 
@@ -40,7 +41,7 @@ const EmailPg: React.FC = () => {
                   e.currentTarget.style.backgroundColor = 'white';
                 }} 
               >
-                Login
+                Submit
               </Button>
             </Form>
             
@@ -49,8 +50,8 @@ const EmailPg: React.FC = () => {
               <Link to="/signup" className="signup-link">
                 Don’t have an account? Sign Up
               </Link>
-              <Link to="/email" className="email-link">
-                Forgot your password?
+              <Link to="/login" className="login-link">
+                Have an account? Login here
               </Link>
             </div>
           </Card.Body>
