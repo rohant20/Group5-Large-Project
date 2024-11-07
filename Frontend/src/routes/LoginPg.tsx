@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import '../style/LoginPg.css';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { PathContext } from '../utils/PathProvider';
 
 const LoginPg: React.FC = () => {
-  //Context hook that grabs out path
+  //Context hook that grabs environemnt path
   const serverPath: string = useContext(PathContext);
   console.log(serverPath);
 
@@ -19,12 +19,12 @@ const LoginPg: React.FC = () => {
 
   //Username and password state handlers
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
-    setEmail(em => e.target.value);
+    setEmail(e.target.value);
     console.log(email);
   }
 
   function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
-    setPassword(pw => e.target.value);
+    setPassword(e.target.value);
     console.log(password);
   }
 

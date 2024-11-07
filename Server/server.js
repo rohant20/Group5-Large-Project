@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 const mongourl = process.env.MONGO_URL;
 
 
-mongoose.connect(mongourl, {
+mongoose.connect("mongodb+srv://root:GroupFive5@cop4331db.jh3zx.mongodb.net/?retryWrites=true&w=majority&appName=COP4331DB", {
     dbName: 'steezeeDB',
 }).then(() => {
     console.log("Database is connected sucessfully!");
@@ -20,15 +20,15 @@ mongoose.connect(mongourl, {
 
 
     //Opens port/starts server
-    app.listen(port, () => {
-        console.log(`Server up and running on ${port}`);
+    app.listen(5000, () => {
+        console.log(`Server up and running on 5000`);
     });
 
     //CORS-enables all routes
     app.use(cors({
         credentials: true,
         //Change this if your port is different when dev testing
-        origin: "http://localhost:5173"
+        origin: "http://www.steezee.xyz"
     }));
 
     //JSON formatting middleware provided by Express

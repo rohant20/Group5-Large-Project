@@ -2,23 +2,28 @@ import React, { createContext } from "react";
 import { ReactNode } from "react";
 
 export const PathContext = createContext("");
-
 interface AuthProviderProps {
     children: ReactNode;
 }
 
+
+//Creates the context value for the API path that allows any page to acess correct path
 const PathProvider: React.FC<AuthProviderProps> = ({ children }) => {
+
+    //TO-DO:
+    //  - Figure out how to use .env file to specifiy the path
     const app_name = 'steezee.xyz';
-    const envirn = 'dev';
 
     const path: string = buildPath();
 
     function buildPath(): string {
-        if (envirn != 'dev') {
-            return 'http://' + app_name + ':8000/';
+        //"true" == server environment
+        //"false" == localhost environment
+        if (true) {
+            return 'http://' + app_name + ':5000/';
         }
         else {
-            return 'http://localhost:8000/';
+            return 'http://localhost:5000/';
         }
     }
 
