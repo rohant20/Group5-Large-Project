@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import '../style/LoginPg.css';
+import styles from '../style/LoginPg.module.css';
 import logo from '../assets/logo.jpg';
 
 import { PathContext } from '../utils/PathProvider';
@@ -89,14 +89,14 @@ const LoginPg: React.FC = () => {
   }
 
   return (
-    <section className="Login">
-      <Container>
-        <Card className="card">
-          <Card.Body className="d-flex flex-column align-items-center"> 
-            <img src={logo} alt="Steeze logo" className="logo" />
+    <section className={styles.login}>
+      <Container className={styles.contain}>
+        <Card className={styles.card}>
+          <Card.Body className={styles.formBody}> 
+            <img src={logo} alt="Steeze logo" className={styles.logo} />
 
-            <Form className="loginForm" onSubmit={submitCredentials}> 
-              <Form.Group controlId="formUser" className="mb-3">
+            <Form className = "d-flex flex-column align-items-center" onSubmit={submitCredentials}> 
+              <Form.Group className={styles.emailForm} controlId="formUser">
               <Form.Control
                   onChange={handleEmail}
                   type="email"
@@ -104,45 +104,31 @@ const LoginPg: React.FC = () => {
                />
               </Form.Group>
 
-              <Form.Group controlId="formPassword" className="mb-4">
+              <Form.Group className={styles.passForm} controlId="formPassword">
               <Form.Control
                   onChange={handlePassword}
                   type="password"
                   placeholder="Password"
                 />
               </Form.Group>
+              
 
               {errorMessage && <p className="error-text">{errorMessage}</p>}
 
               <Button 
                 variant="primary" 
                 type="submit" 
-                className="w-100 login-button"
-                style={{
-                  transition: 'background-color 0.3s, border-color 0.3s',
-                  width: '6rem',
-                  height: '2rem',
-                  borderWidth: '2px',
-                  borderColor: 'black',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'black';
-                  e.currentTarget.style.color = 'white';
-                }} 
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'white';
-                  e.currentTarget.style.color = 'black';
-                }} 
+                className={styles.button}
               >
                 Login
               </Button>
             </Form>
             
-            <div className="links">
-              <Link to="/signup" className="signup-link">
+            <div className="d-flex flex-column align-items-center">
+              <Link to="/signup" className={styles.link}>
                 Don’t have an account? Sign Up
               </Link>
-              <Link to="/email" className="email-link">
+              <Link to="/email" className={styles.link}>
                 Forgot your password?
               </Link>
             </div>

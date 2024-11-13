@@ -1,12 +1,12 @@
-body {
+ body {
     height: 100%;
     margin: 0;
     padding: 0;
-  
+
     font-family: Arial, Helvetica, sans-serif;
   }
   
-  .Email {
+  .signUp{
     background-image: url('../assets/wall.jpeg');
     background-size: cover;
     background-position: center;
@@ -20,57 +20,68 @@ body {
     align-items: center;
     text-align: center;
   }
+
+  .contain{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
+  .logo{
+    height: 200px;
+    border-radius: 50%;
+    border-style: groove ridge ridge groove;
+    border-color: purple;
+    margin: 20px;
+    
+  }
+
+  .formBody{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   
-  .card {
-    width: 36rem;
-    padding: 20px;
+  .card{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background: linear-gradient(to bottom, black, gray);
     border-radius: 25px;
     border: 2px solid black;
+    width: 36rem;
   }
   
-  .logo{
-    height: 20vh;
-    border-radius: 50%;
-    border-style: groove ridge ridge groove;
-    border-color: purple;
-  
+  .emailForm,
+  .passForm
+  {
+    margin-bottom: 20px;
   }
   
-  .form-control {
+  .button{
+    width: 100px;
+    margin-bottom: 5px;
     background-color: white;
     color: black;
     border-color: white;
-    margin: 20px;
-    height: 3vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
   
-  .links{
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+  .button:hover {
+    border-color: black;
+    background-color: white;
+    color: black;
+    border-width: 2px;
   }
   
-  .signup-link {
+  .link{
     color: white;
     text-decoration: underline;
   }
   
-  .login-link{
-    color: white;
-    text-decoration: underline;
-  }
-  
-  /* link effects */
-  
-  .signup-link:hover{
+  .link:hover{
     color: purple;
   }
   
-  .login-link:hover{
-    color: purple;
-  }
-
+  
+  
   

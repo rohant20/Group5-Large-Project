@@ -1,17 +1,16 @@
 import React from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import '../style/SignUp.css';
+import styles from '../style/SignUp.module.css';
+import logo from '../assets/logo.jpg';
 
 const SignUp: React.FC = () => {
   return (
-    <section className="SignUp">
-      <Container>
-        <Card className="card">
-          <Card.Body className="d-flex flex-column align-items-center"> 
-            <Card.Title className="card-title text-center mb-4">
-              Steeze
-            </Card.Title>
+    <section className={styles.signUp}>
+      <Container className={styles.contain}>
+        <Card className={styles.card}>
+          <Card.Body className={styles.formBody}> 
+          <img src={logo} alt="Steeze logo" className={styles.logo}/>
             <Form className="SignUpForm"> 
               <Form.Group controlId="formUsername" className="mb-3">
                 <Form.Control 
@@ -56,14 +55,14 @@ const SignUp: React.FC = () => {
               <Button 
                 variant="primary" 
                 type="submit" 
-                className="signUp-button"
+                className={styles.button}
               >
                 Sign Up
               </Button>
             </Form>
 
             <div className="links">
-              <Link to="/login" className="login-link">
+              <Link to="/login" className={styles.link}>
                 Already have an account? Log In
               </Link>
             </div>
