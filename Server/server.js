@@ -1,34 +1,41 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 const cors = require("cors");
-const { User } = require("./models/userModel");
-const { loginRouter } = require("./routers/loginRouter");
+const mongoose = require("mongoose");
 
-dotenv.config();
+const { User } = require("./models/userModel");
+const { entryRouter } = require("./routers/entryRouter");
+const { userRouter } = require("./routers/fetchUserRouter");
+
 
 const port = process.env.PORT || 5000;
 const mongourl = process.env.MONGO_URL;
+const dbURL = 'mongodb+srv://root:GroupFive5@cop4331db.jh3zx.mongodb.net/?retryWrites=true&w=majority&appName=COP4331DB';
 
 
-mongoose.connect("mongodb+srv://root:GroupFive5@cop4331db.jh3zx.mongodb.net/?retryWrites=true&w=majority&appName=COP4331DB", {
-    dbName: 'steezeeDB',
-}).then(() => {
+dotenv.config();
+
+
+
+
+mongoose.connect(dbURL, { dbName: 'steezeeDB', }).then(() => {
     console.log("Database is connected sucessfully!");
-    //Opens port/starts server
-    app.listen(5000, () => {
-        console.log(`Server up and running on 5000`);
+
+    app.use(cors());            //CORS-enables all routes
+    app.use(express.json());    //JSON formatting middleware provided by Express
+
+    //Routes
+
+    // Default route, let's us know the server is running
+    app.post("/", async (req, res) => {
+        res.status(200).json({ message: "Hello World" });
     });
 
-    //CORS-enables all routes
-    app.use(cors());
+    app.use(entryRouter); // Fetched User by Email and Password
+    app.use(userRouter);  // Fetches User by ID
 
-    //JSON formatting middleware provided by Express
-    app.use(express.json());
-
-    //Routes defined in "/routes"
-    app.use(loginRouter);
+    app.listen(5000, () => { console.log(`Server up and running on ${port}`); }); //Opens port/starts server
 }).catch(err => {
     console.log(err);
 });
