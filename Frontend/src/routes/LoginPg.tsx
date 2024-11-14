@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import '../style/LoginPg.css';
 import { useNavigate } from 'react-router-dom';
 
-import { useContext } from 'react';
 import { PathContext } from '../utils/PathProvider';
 import { AuthContext } from '../utils/AuthProvider';
 
@@ -50,6 +49,7 @@ const LoginPg: React.FC = () => {
     loginUser(tempUser).then(data => {
       console.log(data);
       login(data.username, data._id);
+
       //React-router-dom navigation
       navigate("/");
     }).catch(err => {
