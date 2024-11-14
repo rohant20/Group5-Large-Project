@@ -1,12 +1,18 @@
 import React, { useState, useContext } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
-import '../style/LoginPg.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from '../style/LoginPg.module.css';
+import logo from '../assets/logo.jpg';
 
 import { PathContext } from '../utils/PathProvider';
 import { AuthContext } from '../utils/AuthProvider';
 
+
+
+
+
 const LoginPg: React.FC = () => {
+
   //Context hook that grabs environemnt path
   const serverPath: string = useContext(PathContext);
 
@@ -23,6 +29,8 @@ const LoginPg: React.FC = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 
   //Username and password state handlers
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
@@ -53,7 +61,7 @@ const LoginPg: React.FC = () => {
       //React-router-dom navigation
       navigate("/");
     }).catch(err => {
-      console.log(err);
+      setErrorMessage(err.message);
     });
   }
 
@@ -75,91 +83,56 @@ const LoginPg: React.FC = () => {
     //If the resp did not send back the expected data it throws an error
     //otherwise it will return the response
     if (resp.status == 500) {
-      throw new Error(userInfo.message);
+      throw new Error("Invalid login credentials. Please check your email and password.");
     } else {
       return userInfo;
     }
   }
 
   return (
-    <section className="Login">
-      <Container
-        className="d-flex justify-content-center align-items-center"
-        style={{
-          height: '45vh',
-          display: 'flex'
-        }}
-      >
-        <Card
-          style={{
-            width: '36rem',
-            padding: '20px',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-            background: 'linear-gradient(to bottom, black, gray)',
-            borderRadius: '25px',
-            border: '2px solid black',
-          }}
-        >
-          <Card.Body className="d-flex flex-column align-items-center">
-            <Card.Title className="text-center mb-4" style={{ color: 'white', fontWeight: 'bold', fontSize: '4rem' }}>
-              Steeze
-            </Card.Title>
-            <Form className="loginForm" onSubmit={submitCredentials}>
-              <Form.Group controlId="formEmail" className="mb-3">
-                <Form.Control
+    <section className={styles.login}>
+      <Container className={styles.contain}>
+        <Card className={styles.card}>
+          <Card.Body className={styles.formBody}> 
+            <img src={logo} alt="Steeze logo" className={styles.logo} />
+
+            <Form className = "d-flex flex-column align-items-center" onSubmit={submitCredentials}> 
+              <Form.Group className={styles.emailForm} controlId="formUser">
+              <Form.Control
                   onChange={handleEmail}
                   type="email"
                   placeholder="Enter email"
-                  style={{
-                    backgroundColor: 'white',
-                    color: 'black',
-                    borderColor: 'white',
-                    margin: '20px',
-                    height: '3vh',
-                  }}
-                />
+               />
               </Form.Group>
 
-              <Form.Group controlId="formPassword" className="mb-4">
-                <Form.Control
+              <Form.Group className={styles.passForm} controlId="formPassword">
+              <Form.Control
                   onChange={handlePassword}
                   type="password"
                   placeholder="Password"
-                  style={{
-                    backgroundColor: 'white',
-                    color: 'black',
-                    borderColor: 'white',
-                    margin: '20px',
-                    height: '3vh'
-                  }}
                 />
               </Form.Group>
+              
 
-              <Button
-                variant="primary"
-                type="submit"
-                className="w-100"
-                style={{
-                  backgroundColor: 'white',
-                  transition: 'background-color 0.3s',
-                  width: '8rem',
-                  height: '3rem',
-                  borderWidth: '2px',
-                  borderStyle: 'solid',
-                  borderColor: 'black'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'black';
-                  e.currentTarget.style.backgroundColor = 'white';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'white';
-                  e.currentTarget.style.backgroundColor = 'white';
-                }}
+              {errorMessage && <p className="error-text">{errorMessage}</p>}
+
+              <Button 
+                variant="primary" 
+                type="submit" 
+                className={styles.button}
               >
                 Login
               </Button>
             </Form>
+            
+            <div className="d-flex flex-column align-items-center">
+              <Link to="/signup" className={styles.link}>
+                Don’t have an account? Sign Up
+              </Link>
+              <Link to="/email" className={styles.link}>
+                Forgot your password?
+              </Link>
+            </div>
           </Card.Body>
         </Card>
       </Container>
