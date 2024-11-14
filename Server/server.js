@@ -5,7 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const { User } = require("./models/userModel");
-const { loginRouter } = require("./routers/loginRouter");
+const { entryRouter } = require("./routers/entryRouter");
 const { userRouter } = require("./routers/fetchUserRouter");
 
 
@@ -19,12 +19,12 @@ dotenv.config();
 
 
 
-mongoose.connect(dbURL, {dbName: 'steezeeDB',}).then(() => {
+mongoose.connect(dbURL, { dbName: 'steezeeDB', }).then(() => {
     console.log("Database is connected sucessfully!");
 
     app.use(cors());            //CORS-enables all routes
     app.use(express.json());    //JSON formatting middleware provided by Express
-    
+
     //Routes
 
     // Default route, let's us know the server is running
@@ -32,10 +32,10 @@ mongoose.connect(dbURL, {dbName: 'steezeeDB',}).then(() => {
         res.status(200).json({ message: "Hello World" });
     });
 
-    app.use(loginRouter); // Fetched User by Email and Password
+    app.use(entryRouter); // Fetched User by Email and Password
     app.use(userRouter);  // Fetches User by ID
-    
-    app.listen(5000, () => {console.log(`Server up and running on ${port}`);}); //Opens port/starts server
+
+    app.listen(5000, () => { console.log(`Server up and running on ${port}`); }); //Opens port/starts server
 }).catch(err => {
     console.log(err);
 });
