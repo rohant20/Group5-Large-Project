@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const { User } = require("./models/userModel");
 
 const { loginRouter } = require("./routers/loginRouter");
-const { resetPasswordRouter } = require("./routers/resetPasswordRouter"); // Import the reset password router
+const { resetRouter } = require("./routers/resetPasswordRouter"); // Import the reset password router
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ mongoose.connect(mongourl, {
 
     app.use(express.json());
     app.use(loginRouter);
-    app.use('/api', resetPasswordRouter); // Mount the reset password routes
+    app.use(resetRouter); // Mount the reset password routes
 }).catch(err => {
     console.log(err);
 });

@@ -3,10 +3,10 @@ const nodemailer = require("nodemailer");
 const { User } = require("../models/userModel"); 
 const crypto = require("crypto");
 
-const router = express.Router();
+const resetRouter = express.Router();
 
 // POST: /forgotPassword
-router.post("/forgotPassword", async (req, res) => {
+resetRouter.post("/api/forgotPassword", async (req, res) => {
   const { email } = req.body;
 
   // Find the user in the database by email
@@ -28,6 +28,7 @@ router.post("/forgotPassword", async (req, res) => {
   // Create a transporter for Nodemailer to send the email
   const transporter = nodemailer.createTransport({
     service: "gmail",
+    
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -57,4 +58,6 @@ router.post("/forgotPassword", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = {
+  resetRouter
+}
