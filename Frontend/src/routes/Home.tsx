@@ -19,9 +19,9 @@ const Home: React.FC = () => {
     return (
         <>
             <NavTop />
-            <CarouselItem/>
             <section className={styles.sectionBg}>
-                <h1>Hello {auth.username}</h1>
+                <h1 id={styles.nameBanner}>Hello {auth.username}</h1>
+                <CarouselItem />
             </section>
         </>
     );

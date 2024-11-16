@@ -5,10 +5,11 @@ import LoginPg from './routes/LoginPg.tsx'
 import SignUp from './routes/SignUp.tsx'
 import EmailPg from './routes/EmailPg.tsx'
 import Home from './routes/Home.tsx'
+import ResetPass from './routes/ResetPass.tsx'
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PathProvider from './utils/PathProvider.tsx'
-import AuthProvider  from './utils/AuthProvider.tsx'
+import AuthProvider from './utils/AuthProvider.tsx'
 
 const router = createBrowserRouter([
   {
@@ -20,15 +21,19 @@ const router = createBrowserRouter([
     element: <SignUp />
   },
   {
-  
+
     path: "email",
-    element: <EmailPg/>
+    element: <EmailPg />
   },
   {
     path: "login",
-    element: <LoginPg/>
+    element: <LoginPg />
+  },
+  {
+    path: "reset",
+    element: <ResetPass />
   }
-  
+
 ]);
 
 createRoot(document.getElementById('root')!).render(
