@@ -2,12 +2,22 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import React from "react";
 
-// Validation Schema
+// Define the form values interface
+interface FormValues {
+  title: string;
+  size: string;
+  price: number | string;
+  quantity: number | string;
+  condition: string;
+  image: File | null; // File for the uploaded image
+}
+
+// Validation schema
 const basicSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
   size: yup
     .string()
-    .oneOf(["xs", "s", "m", "l", "xl", "xxl", "xxxl"], "Invalid size")
+    .oneOf(["xxs","xs", "s", "m", "l", "xl", "xxl", "xxxl"], "Invalid size")
     .required("Size is required"),
   price: yup
     .number()
@@ -21,24 +31,27 @@ const basicSchema = yup.object().shape({
     .string()
     .oneOf(["New", "Used"], "Invalid condition")
     .required("Condition is required"),
-  image: yup
+    image: yup
     .mixed()
     .required("Image is required")
-    .test("fileSize", "File too large (max 5MB)", (file) =>
-      file ? file.size <= 5 * 1024 * 1024 : true
+    .test(
+      "fileSize",
+      "File too large (max 5MB)",
+      (file: File | null) =>
+        file ? file.size <= 5 * 1024 * 1024 : true // File size validation
     )
     .test(
       "fileType",
       "Unsupported file format (only JPEG, PNG allowed)",
-      (file) =>
+      (file: File | null) =>
         file
-          ? ["image/jpeg", "image/png"].includes(file.type)
+          ? ["image/jpeg", "image/png"].includes(file.type) // File type validation
           : true
     ),
 });
 
-// OnSubmit Function
-const onSubmit = async (values, actions) => {
+// onSubmit function
+const onSubmit = async (values: FormValues, actions: any) => {
   const formData = new FormData();
 
   // Append form fields to the FormData object
@@ -47,12 +60,12 @@ const onSubmit = async (values, actions) => {
   formData.append("price", values.price.toString());
   formData.append("quantity", values.quantity.toString());
   formData.append("condition", values.condition);
-  formData.append("image", values.image); // Append the image file
+  formData.append("image", values.image!); // Non-null assertion
 
   try {
     const response = await fetch("https://your-api-endpoint.com/submit", {
       method: "POST",
-      body: formData, // Send as FormData
+      body: formData,
     });
 
     if (response.ok) {
@@ -64,11 +77,10 @@ const onSubmit = async (values, actions) => {
     console.error("Error submitting form:", error);
   }
 
-  // Reset the form after submission
   actions.resetForm();
 };
 
-// Component
+// BasicForm component
 const BasicForm = () => {
   const {
     values,
@@ -79,7 +91,7 @@ const BasicForm = () => {
     handleSubmit,
     setFieldValue,
     isSubmitting,
-  } = useFormik({
+  } = useFormik<FormValues>({
     initialValues: {
       title: "",
       size: "",
