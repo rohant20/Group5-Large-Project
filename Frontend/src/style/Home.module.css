@@ -3,3 +3,9 @@
     background-color: black;
     color: #EEEEEE;
 }
+
+#nameBanner {
+    font-size: 5em;
+    text-align: center;
+    margin-bottom: 2%;
+}
