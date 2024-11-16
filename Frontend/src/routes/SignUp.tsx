@@ -64,6 +64,8 @@ const SignUp: React.FC = () => {
       navigate("/");
     }).catch(err => {
       //Add error message code
+      console.log(err);
+
     });
   }
 
