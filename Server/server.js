@@ -1,36 +1,34 @@
 const dotenv = require("dotenv");
 const express = require("express");
-const app = express();
 const mongoose = require("mongoose");
-const { User } = require("./models/userModel");
 
 const { loginRouter } = require("./routers/loginRouter");
 const { resetRouter } = require("./routers/resetPasswordRouter"); // Import the reset password router
 
 dotenv.config();
 
+const app = express();
 const port = process.env.PORT || 8000;
 const mongourl = process.env.MONGO_URL;
 
+// Middleware to parse JSON
+app.use(express.json());
 
-mongoose.connect(mongourl, {
-    dbName: 'steezeeDB',
-}).then(() => {
-    console.log("Database is connected sucessfully!");
+// Mount routers
+app.use(loginRouter);
+app.use(resetRouter);
+console.log("Reset router is mounted");
+
+// Connect to MongoDB and start the server
+mongoose
+  .connect(mongourl, { dbName: "steezeeDB" })
+  .then(() => {
+    console.log("Database is connected successfully!");
 
     app.listen(port, () => {
-        console.log(`Server up and running on ${port}`);
+      console.log(`Server up and running on port ${port}`);
     });
-
-    app.use(express.json());
-    app.use(loginRouter);
-    app.use(resetRouter); // Mount the reset password routes
-}).catch(err => {
-    console.log(err);
-});
-
-
-
-
-
-
+  })
+  .catch((err) => {
+    console.error("Database connection error:", err);
+  });

@@ -1,63 +1,67 @@
 const express = require("express");
-const nodemailer = require("nodemailer");
-const { User } = require("../models/userModel"); 
 const crypto = require("crypto");
+const { User } = require("../models/userModel");
+const { sendEmail } = require("../sendEmail");  // Importing the sendEmail function
+const { verifyToken } = require("../verifyToken");  // Import the verifyToken function
+const { hashPassword } = require("../utils");  // Assuming hashPassword is defined here
+const { resetPassword } = require("../controllers/resetPassword");  // Import the resetPassword function
 
 const resetRouter = express.Router();
 
-// POST: /forgotPassword
+console.log("resetRouter loaded");
+
+// Route for requesting a password reset (forgot password)
 resetRouter.post("/api/forgotPassword", async (req, res) => {
   const { email } = req.body;
 
-  // Find the user in the database by email
   const user = await User.findOne({ email });
-
   if (!user) {
     return res.status(400).json({ success: false, message: "User not found" });
   }
 
-  // Generate a reset token
+  // Generate reset token and expiration
   const resetToken = crypto.randomBytes(32).toString("hex");
-  const resetTokenExpiration = Date.now() + 3600000; // 1 hour expiration
+  const resetTokenExpiration = Date.now() + 3600000; // 1 hour
 
-  // Save the reset token and expiration time to the user's record
   user.resetToken = resetToken;
   user.resetTokenExpiration = resetTokenExpiration;
   await user.save();
 
-  // Create a transporter for Nodemailer to send the email
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  // Set up the email data
   const resetLink = `http://localhost:8000/reset-password/${resetToken}`;
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Password Reset Request",
-    text: `Click here to reset your password: ${resetLink}`,
-  };
+  const emailContent = `Click here to reset your password: ${resetLink}`;
 
   try {
-    // Send the email
-    await transporter.sendMail(mailOptions);
+    await sendEmail(email, "Password Reset Request", emailContent);
     res.status(200).json({
       success: true,
       message: `Password reset email sent to ${email}`,
-      resetLink: resetLink,
+      resetLink,
     });
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Failed to send reset email:", error);  // Log detailed error
     res.status(500).json({ success: false, message: "Failed to send reset email." });
   }
 });
 
-module.exports = {
-  resetRouter
-}
+// Route for resetting the password (after clicking the reset link)
+resetRouter.post("/api/resetPassword/:token", async (req, res) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  // Verify the token
+  const verificationResult = await verifyToken(token);
+  if (!verificationResult.success) {
+    return res.status(400).json(verificationResult); // Return error if token is invalid or expired
+  }
+
+  try {
+    // Use resetPassword function to reset the password
+    const result = await resetPassword(token, newPassword);
+    res.status(200).json(result);  // Send success message from resetPassword
+  } catch (error) {
+    console.error("Error resetting password:", error);  // Log the error
+    res.status(400).json({ success: false, error: error.message });  // Send error response
+  }
+});
+
+module.exports = { resetRouter };
