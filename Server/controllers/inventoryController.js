@@ -20,9 +20,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
             user: user
         });
 
-        if (filter == "" || filterVal == "") {
-            res.status(200).json(listings);
-        } else {
+        if (!(filter == "" || filterVal == "")) {
             listings = await Listing.find({
                 $and: [
                     { user: user },
@@ -31,9 +29,6 @@ const getAllProducts = asyncHandler(async (req, res) => {
             });
         }
 
-        if (listings.length == 0) {
-            return res.status(200).json({})
-        }
 
         res.status(200).json(listings);
     } catch (error) {
