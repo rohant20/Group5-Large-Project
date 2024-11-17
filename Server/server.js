@@ -4,9 +4,10 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const { User } = require("./models/userModel");
 const { entryRouter } = require("./routers/entryRouter");
 const { userRouter } = require("./routers/fetchUserRouter");
+const { productRouter } = require("./routers/productRouter");
+
 
 
 const port = process.env.PORT || 5000;
@@ -15,9 +16,6 @@ const dbURL = 'mongodb+srv://root:GroupFive5@cop4331db.jh3zx.mongodb.net/?retryW
 
 
 dotenv.config();
-
-
-
 
 mongoose.connect(dbURL, { dbName: 'steezeeDB', }).then(() => {
     console.log("Database is connected sucessfully!");
@@ -34,6 +32,7 @@ mongoose.connect(dbURL, { dbName: 'steezeeDB', }).then(() => {
 
     app.use(entryRouter); // Fetched User by Email and Password
     app.use(userRouter);  // Fetches User by ID
+    app.use(productRouter);
 
     app.listen(5000, () => { console.log(`Server up and running on ${port}`); }); //Opens port/starts server
 }).catch(err => {

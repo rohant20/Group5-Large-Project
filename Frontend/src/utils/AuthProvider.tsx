@@ -2,13 +2,17 @@ import React, { createContext, useState } from "react";
 import { ReactNode } from "react";
 
 //Interfaces to define the context type
+
+interface Auth {
+    username: string;
+    userID: string;
+}
+
+
 interface AuthContextType {
-    auth: {
-        username: string;
-        userID: string;
-    };
     login: (username: string, userID: string) => void;
     logout: () => void;
+    auth: Auth;
 }
 
 //Interface to define the prop types
@@ -22,7 +26,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 //Creates the context value for the API path that allows any page to acess correct path
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
-    const [auth, setAuth] = useState(
+    const [auth, setAuth] = useState<Auth>(
         {
             username: "",
             userID: "",
