@@ -4,7 +4,7 @@ class Listing {
         //User Input via API call
         this.name = name;  //Product title
         this.size = size;  //Size
-        this.type = title;  //Product category (shirt, pants, etc.)
+        this.title = title;  //Product category (shirt, pants, etc.)
         this.price = price; //Price
         this.brand = brand; //Brand
         this.count = cond; //Quantity in Stock
