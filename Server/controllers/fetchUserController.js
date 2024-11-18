@@ -23,20 +23,20 @@ const getUserByID = asyncHandler(async (req, res) => {
 });
 
 const getUserByUsername = asyncHandler(async (req, res) => {
-    try{
-            
-            const username = req.body.username;
-    
-            const currUser = await User.findOne({
-                username: username
-            })
+    try {
 
-            if(currUser == null){
-                res.status(404).json({ message: "Account not found" })
-            }
+        const username = req.body.username;
 
-            res.status(200).json(currUser);
-    } catch (error){
+        const currUser = await User.findOne({
+            username: username
+        })
+
+        if (currUser == null) {
+            res.status(404).json({ message: "Account not found" })
+        }
+
+        res.status(200).json(currUser);
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
