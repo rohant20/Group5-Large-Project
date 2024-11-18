@@ -23,7 +23,6 @@ const NavTop: React.FC = () => {
 
 
     function handleLogOut() {
-
         logout();
         navigateTo("/login");
     }
