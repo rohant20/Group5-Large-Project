@@ -30,7 +30,7 @@ const CarouselItem: React.FC = () => {
   async function loadListings(username: string, filter: string, filterVal: string) {
     console.log(username);
     //Make sure to change the url when it goes on the server
-    const apiURL: string = serverPath + "getinventory"
+    const apiURL: string = serverPath + "fetchListingsByUser"
     //stores the response from the api in a variable
 
     const payload: Object = {
