@@ -1,28 +1,58 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: CI/CD Pipeline for Frontend and Backend
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main  # Trigger workflow on push to the main branch
 
 jobs:
-  build:
-    runs-on: self-hosted
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+  deploy:
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm i
-    - run: npm run build --if-present
-    - run: npm test
+      # Step 1: Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js (for building frontend)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Specify your Node.js version
+
+      # Step 3: Build Frontend
+      - name: Install and Build Frontend
+        working-directory: ./Frontend # Adjust path if necessary
+        run: |
+          npm install
+          npm run build
+
+      # Step 4: Upload Frontend Build Files to VM
+      - name: Deploy Frontend to VM
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ./frontend/build/* # Adjust path to match your frontend build output
+          target: /var/www/frontend   # Target directory on the VM
+
+      # Step 5: Upload Backend Files to VM
+      - name: Deploy Backend to VM
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ./server/* # Adjust path for your server files
+          target: /var/www/backend   # Target directory on the VM
+
+      # Step 6: Restart Backend Service
+      - name: Restart Backend Service
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            pm2 restart /var/www/backend/index.js # Replace with your backend start command
