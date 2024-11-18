@@ -24,7 +24,6 @@ jobs:
       - name: Install and Build Frontend
         working-directory: ./Frontend
         run: |
-          npm install
           npm run build
 
       # Step 4: Deploy Frontend with Password
