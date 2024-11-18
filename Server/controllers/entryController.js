@@ -85,7 +85,9 @@ const signUpUser = asyncHandler(async (req, res) => {
 
         console.log(exsistingUsers.length);
 
-        if (exsistingUsers.length == 0) {
+        if (exsistingUsers.length != 0) {
+            res.status(500).json({ message: "userExsist" });
+        } else {
             //Hashing password
             let hashedPassword = await bcrypt.hash(userInput.password, salt);
 
@@ -103,9 +105,6 @@ const signUpUser = asyncHandler(async (req, res) => {
             });
 
             res.status(200).json({ "_id": insertedUser.insertedId });
-        } else {
-            res.status(500).json({ message: "userExsist" });
-
         }
     } catch (error) {
         console.log(error);
