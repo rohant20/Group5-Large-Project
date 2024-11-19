@@ -32,7 +32,7 @@ import BasicForm from "../components/FormCommponents/AddForm";
 import EbayInven from "../components/FormCommponents/EbayInven";
 import GrailedInven, { } from "../components/FormCommponents/GrailedInven";
 import DepopInven from "../components/FormCommponents/DepopInven";
-import Inventory from "../components/FormCommponents/inventory";
+import Inventory from "../components/FormCommponents/Inventory";
 import styles from "../style/Form.module.css";
 import NavTop from "../components/NavTop/NavTop";
 
