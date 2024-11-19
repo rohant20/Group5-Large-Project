@@ -1,9 +1,38 @@
+/*  
+Documentation: https://formik.org/
+https://formik.org/docs/guides/validation
+
+Installation
+You can install Formik with NPM, Yarn, or a good ol' <script> via unpkg.com.
+
+NPM
+Copy
+ npm install formik --save
+
+or
+
+Copy
+ yarn add formik
+
+ then add npm install yup --save
+
+ Validation
+Formik is designed to manage forms with complex validation with ease. 
+Formik supports synchronous and asynchronous form-level and field-level validation. 
+Furthermore, it comes with baked-in support for schema-based form-level validation through Yup. This guide will describe the ins and outs of all of the above.
+
+ https://formik.org/docs/guides/validation
+
+Run app from ListingToolApp then it goes to each commponent in formCommponent
+
+*/
+
 import { useState } from "react";
-import BasicForm from "./components/AddForm";
-import EbayForm from "./components/EbayForm";
-import GrailedForm, {  } from "./components/GrailedForm";
-import DepopForm from "./components/DepopForm";
-import "./App.css";
+import BasicForm from "./components/FormCommponents/AddForm";
+import EbayForm from "./components/FormCommponents/EbayForm";
+import GrailedForm, {  } from "./components/FormCommponents/GrailedForm";
+import DepopForm from "./components/FormCommponents/DepopForm";
+import "./components/FormCommponents/FomModule.css";
 
 function ListingApp() {
   const [view, setView] = useState("basic");

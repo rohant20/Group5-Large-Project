@@ -42,7 +42,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #9B7EBD;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -65,4 +65,27 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Rose home page */
+.page{
+  width: 100%;
+  height: fit-content;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.page-container {
+  width: 75%;
+  height: 100%;
+  padding: 16px;
+  display: table-row;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: var(--background-primary);
+  box-shadow: var(--box-shadow);
+
 }

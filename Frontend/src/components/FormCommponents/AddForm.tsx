@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import React from "react";
+import styles from './NavTop.module.css';
 
 // Define the form values interface
 interface FormValues {
@@ -32,7 +33,7 @@ const basicSchema = yup.object().shape({
     .oneOf(["New", "Used"], "Invalid condition")
     .required("Condition is required"),
     image: yup
-    .mixed()
+    .mixed<File | null>()
     .required("Image is required")
     .test(
       "fileSize",
@@ -187,10 +188,8 @@ const BasicForm = () => {
         className={errors.image && touched.image ? "input-error" : ""}
       />
       {errors.image && touched.image && <p className="error">{errors.image}</p>}
-
-      <button disabled={isSubmitting} type="submit">
-        Submit
-      </button>
+        
+      <button disabled={isSubmitting} type="submit"> Submit </button>
     </form>
   );
 };

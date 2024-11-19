@@ -1,0 +1,146 @@
+
+.read-the-docs {
+          color: #888;
+        }
+        
+        
+        /* Rose added code after lost of files */
+        
+        /* Ensure full screen with black background */
+        body, html, #root {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          background-color: #000000;
+          color: white;
+          font-family: Arial, sans-serif;
+        }
+        
+        #root {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+          box-sizing: border-box;
+        }
+        
+        /* Centering content and adjusting padding */
+        .ListingApp {
+          text-align: center;
+          padding: 5rem 1rem;
+          width: 100%;
+          height: 100%;
+        }
+        
+        .card {
+          padding: 2em;
+        }
+        
+        .read-the-docs {
+          color: #888;
+        }
+        
+        .error {
+          color: #fc8181;
+          font-size: 0.75rem;
+          text-align: left;
+          margin-top: 0.25rem;
+        }
+        
+        .checkbox {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          margin-top: 1rem;
+        }
+        
+        /* Navbar styling */
+        nav {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 2rem;
+        }
+        
+        nav h3 {
+          margin: 1rem;
+          cursor: pointer;
+          color: #718096;
+        }
+        
+        nav h3:hover {
+          color: white;
+        }
+        
+        /* Form styling */
+        form {
+          width: 95%;
+          max-width: 700px;
+          margin: 0 auto;
+          display: block;
+          
+        }
+        
+        form label {
+          font-size: 1rem;
+          font-weight: bold;
+          display: flex;
+          flex-direction: column-reverse;
+          text-align: left;
+          margin: 1rem 0 0.2rem;
+          color: white; /* Labels in white */
+        }
+        
+        input,
+        select {
+          width: 100%;
+          padding: 0.65rem 0.5rem;
+          font-size: 1rem;
+          color: white;
+          border: 2px solid #4a5568;
+          background-color: #2d3748;
+          border-radius: 10px;
+          outline: none;
+        }
+        
+        input:focus,
+        select:focus {
+          border-color: #3B1E54;
+        }
+        
+        input::placeholder,
+        select::placeholder {
+          color: #9B7EBD;
+        }
+        
+        input[type="checkbox"] {
+          width: fit-content;
+          margin-right: 0.5rem;
+          transform: scale(1.25);
+        }
+        
+        input.input-error,
+        select.input-error {
+          border-color: red;
+        }
+        
+        /* Button styling */
+        button:disabled {
+          opacity: 0.35;
+        }
+        
+        button {
+          display: block;
+          margin: 1rem 0;
+          padding: 0.35rem 0.5rem;
+          background-color: #9B7EBD;
+          color: #1a202c;
+          border: none;
+          border-radius: 3px;
+          width: 100%;
+          font-size: 1rem;
+          font-weight: bold;
+          cursor: pointer;
+        }
+        

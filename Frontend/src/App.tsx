@@ -1,15 +1,18 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import ListingApp from './ListingApp'
+import NavTop, {  } from "./components/NavTop";
+import HomePage from './pages/HomePages/homePage';
+import  SearchFeature  from './components/inventory/inventory';
 
 function App() {
-  const [count, setCount] = useState(0)
+ 
 
   return (
     <>
+    <SearchFeature />
     <ListingApp />
+    
     </>
   )
 }
