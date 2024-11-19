@@ -17,7 +17,7 @@ app.use(express.json());
 // Mount routers
 app.use(loginRouter);
 app.use(resetRouter);
-console.log("Reset router is mounted");
+console.log("Routers are mounted");
 
 // Connect to MongoDB and start the server
 mongoose

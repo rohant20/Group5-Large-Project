@@ -35,6 +35,7 @@ app.post('/forgotPassword', async (req, res) => {
         user.resetToken = resetToken;
         user.resetTokenExpiration = Date.now() + 3600000; // 1 hour expiration
         await user.save();
+        console.log("User after saving resetToken and resetTokenExpiration:", user);
         console.log(user.resetToken, user.resetTokenExpiration);
 
         // Mock email sending (replace with Nodemailer logic)
