@@ -4,7 +4,7 @@ import style from './Carousel.module.css';
 interface ProductProps {
   url: string;
   name: string;
-  price: string;
+  price: number;
   description: string;
 }
 

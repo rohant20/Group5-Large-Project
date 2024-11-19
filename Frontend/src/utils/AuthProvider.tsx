@@ -1,14 +1,18 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { ReactNode } from "react";
 
 //Interfaces to define the context type
+
+interface Auth {
+    username: string;
+    userID: string;
+}
+
+
 interface AuthContextType {
-    auth: {
-        username: string;
-        userID: string;
-    };
     login: (username: string, userID: string) => void;
     logout: () => void;
+    auth: Auth;
 }
 
 //Interface to define the prop types
@@ -22,12 +26,14 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 //Creates the context value for the API path that allows any page to acess correct path
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
-    const [auth, setAuth] = useState(
-        {
-            username: "",
-            userID: "",
-        }
-    );
+    const [auth, setAuth] = useState<Auth>(() => {
+        const savedAuth = localStorage.getItem("auth");
+        return savedAuth ? JSON.parse(savedAuth) : { username: "", userID: "" };
+    });
+
+    useEffect(() => {
+        localStorage.setItem("auth", JSON.stringify(auth));
+    }, [auth]);
 
     // Mock function to login, which sets the auth token
     const login = (un: string, id: string) => {
@@ -47,6 +53,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 userID: "",
             }
         );
+        localStorage.removeItem("auth");
     };
 
     return (

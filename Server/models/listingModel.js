@@ -49,7 +49,7 @@ const baseListingSchema = mongoose.Schema({
     }
 }, {
     discriminatorKey: 'kind', // Schema inheritance
-    collection: "listings" 
+    collection: "listings"
 
 });
 

@@ -93,38 +93,38 @@ const LoginPg: React.FC = () => {
     <section className={styles.login}>
       <Container className={styles.contain}>
         <Card className={styles.card}>
-          <Card.Body className={styles.formBody}> 
+          <Card.Body className={styles.formBody}>
             <img src={logo} alt="Steeze logo" className={styles.logo} />
 
-            <Form className = "d-flex flex-column align-items-center" onSubmit={submitCredentials}> 
+            <Form className="d-flex flex-column align-items-center" onSubmit={submitCredentials}>
               <Form.Group className={styles.emailForm} controlId="formUser">
-              <Form.Control
+                <Form.Control
                   onChange={handleEmail}
                   type="email"
                   placeholder="Enter email"
-               />
+                />
               </Form.Group>
 
               <Form.Group className={styles.passForm} controlId="formPassword">
-              <Form.Control
+                <Form.Control
                   onChange={handlePassword}
                   type="password"
                   placeholder="Password"
                 />
               </Form.Group>
-              
+
 
               {errorMessage && <p className="error-text">{errorMessage}</p>}
 
-              <Button 
-                variant="primary" 
-                type="submit" 
+              <Button
+                variant="primary"
+                type="submit"
                 className={styles.button}
               >
                 Login
               </Button>
             </Form>
-            
+
             <div className="d-flex flex-column align-items-center">
               <Link to="/signup" className={styles.link}>
                 Don’t have an account? Sign Up

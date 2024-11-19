@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../utils/AuthProvider';
 
 import Container from 'react-bootstrap/Container';
@@ -23,7 +23,6 @@ const NavTop: React.FC = () => {
 
 
     function handleLogOut() {
-
         logout();
         navigateTo("/login");
     }
@@ -31,13 +30,16 @@ const NavTop: React.FC = () => {
     return (
         <Navbar className={styles.navBar} expand="lg" >
             <Container>
-                <Navbar.Brand href="#home">Steezee</Navbar.Brand>
+                <Link to="/">
+                    <Navbar.Brand href="/">Steezee</Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className={`me-auto ${styles.navContent}`}>
-                        <Nav.Link href="#home">Home</Nav.Link>
+                        <Link to="/inventory">
+                            <Nav.Link href="#link">My closet</Nav.Link>
+                        </Link>
                         <Nav.Link href="#link">Listing Tool</Nav.Link>
-                        <Nav.Link href="#link">My closet</Nav.Link>
                         <NavDropdown title="Profile" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Account Info</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
