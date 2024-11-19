@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import Carousel from "react-multi-carousel";
-import 'react-multi-carousel/lib/styles.css';
-import Product from "./Product";
-import { responsive } from "./Data";
+import Product from "../Carousel/Product.js";
+import { useContext, useEffect, useState } from "react";
 
 
-import { PathContext } from "../../utils/PathProvider";
-import { AuthContext } from "../../utils/AuthProvider";
+import { PathContext } from "../../utils/PathProvider.js";
+import { AuthContext } from "../../utils/AuthProvider.js";
 
 
 interface Listing {
@@ -14,8 +11,7 @@ interface Listing {
   price: number;
   description: string;
 }
-
-const CarouselItem: React.FC = () => {
+const Inventory = () => {
   const serverPath: string = useContext(PathContext);
 
   const authInfo = useContext(AuthContext);
@@ -70,19 +66,20 @@ const CarouselItem: React.FC = () => {
 
 
   return (
-    <div>
-      <Carousel showDots={true} responsive={responsive}>
+    <div className="container">
+      <div className="row">
         {products.map((item) => (
-          <Product
-            name={item.name}
-            url="https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
-            price={item.price}
-            description={item.description}
-          />
+          <div className="col-md-4">
+            <Product
+              name={item.name}
+              url="https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+              price={item.price}
+              description={item.description}
+            />
+          </div>
         ))}
-      </Carousel>
+      </div>
     </div>
-  )
-}
-
-export default CarouselItem;
+  );
+};
+export default Inventory;
