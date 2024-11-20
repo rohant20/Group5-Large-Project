@@ -13,7 +13,16 @@ interface Listing {
   name: string;
   price: number;
   description: string;
+  brand: string;
+  condition: string;
+  quantity: number;
+  size: string;
+  tags: string[];
+  title: string;
+  platform: string;
 }
+
+
 
 const CarouselItem: React.FC = () => {
   const serverPath: string = useContext(PathContext);
@@ -33,7 +42,7 @@ const CarouselItem: React.FC = () => {
     const apiURL: string = serverPath + "getinventory"
     //stores the response from the api in a variable
 
-    const payload: Object = {
+    const payload: object = {
       username: username,
       filter: filter,
       filterVal: filterVal
@@ -71,44 +80,21 @@ const CarouselItem: React.FC = () => {
 
   return (
     <div>
-      {/* <div className="conatiner">
-        <div className={`row`}>
-          <div className="col-md-6">
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Filter By
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-          <div className="col-md-6">
-            <InputGroup className="mb-3">
-              <Form.Control
-                placeholder="Filter Value"
-                aria-describedby="basic-addon2"
-              />
-              <Button variant="outline-secondary" id="button-addon2">
-                Filter
-              </Button>
-            </InputGroup>
-          </div>
-        </div>
-      </div> */}
-
-
-
       <Carousel showDots={true} responsive={responsive}>
-        {products.map((item) => (
+        {products.map((item, index) => (
           <Product
+            key={item.name + index}
             name={item.name}
             url="https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
             price={item.price}
             description={item.description}
+            brand={item.brand}
+            condition = {item.condition}
+            quantity = {item.quantity}
+            size = {item.size}
+            tags = {item.tags}
+            title = {item.title}
+            platform = {item.platform}
           />
         ))}
       </Carousel>

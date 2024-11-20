@@ -13,15 +13,14 @@ const Home: React.FC = () => {
         throw new Error("useContext must be used within an AuthProvider");
     }
 
-    const { auth } = userInfo;
+    
 
 
     return (
         <>
             <NavTop />
             <section className={styles.sectionBg}>
-                <h1 id={styles.nameBanner}>Hello {auth.username}</h1>
-                <CarouselItem />
+                <CarouselItem/>
             </section>
         </>
     );
