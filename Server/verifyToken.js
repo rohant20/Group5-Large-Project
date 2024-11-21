@@ -8,13 +8,20 @@ async function verifyToken(token) {
         const database = await connectToDatabase();
         console.log("Connected to database successfully"); // Log successful DB connection
 
-        const users = database.collection("Users");
+        console.log("Database name:", database.databaseName);
+
+        const users = database.collection("users"); // Ensure correct collection name
+
+        // Log the query being executed
+        const trimmedToken = token.trim();
+        const query = {
+            resetToken: trimmedToken,
+            resetTokenExpiration: { $gt: new Date() }, // Correct comparison for date
+        };
+        console.log("Database query:", query);
 
         // Query the database to find the user with the provided token
-        const user = await users.findOne({
-            resetToken: token,
-            resetTokenExpiration: { $gt: Date.now() }, // Ensure token hasn't expired
-        });
+        const user = await users.findOne(query);
 
         console.log("User found during token verification:", user); // Log user object if found
 
