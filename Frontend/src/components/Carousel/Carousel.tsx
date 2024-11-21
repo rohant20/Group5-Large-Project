@@ -61,9 +61,12 @@ const CarouselItem: React.FC = () => {
     //otherwise it will return the response
     if (resp.status == 500) {
       throw new Error("Server Error");
-    } else {
+    } else if(!Array.isArray(listings)){
+      throw new Error("Unexpected API response format");
+    }else{
       return listings;
     }
+    
   }
 
   useEffect(() => {
@@ -74,7 +77,7 @@ const CarouselItem: React.FC = () => {
     }).catch(err => {
       console.log(err);
     });
-  }, [serverPath]);
+  }, [serverPath, authInfo.auth.username]);
 
 
 
