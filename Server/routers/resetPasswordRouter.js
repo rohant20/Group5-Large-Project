@@ -57,17 +57,21 @@ resetRouter.post("/api/resetPassword/:token", async (req, res) => {
     const { newPassword } = req.body;
     console.log("Reset password request received for token:", token);
 
-    // Verify the token
+    // Verify the token (handles user lookup and expiration check)
     const verificationResult = await verifyToken(token);
     console.log("Verification result:", verificationResult);
 
-    if (!verificationResult.success) {
-      console.warn("Token verification failed:", verificationResult);
-      return res.status(400).json(verificationResult); // Return error if token is invalid or expired
+    // If token verification fails, return the error message
+    if (!verificationResult.user) {
+      console.warn("Token verification failed: no user found");
+      return res.status(400).json({ success: false, message: "Invalid or expired token" });
     }
 
-    // Use resetPassword function to reset the password
-    const result = await resetPassword(token, newPassword);
+    const { user } = verificationResult; // Extract the user directly from the result
+    console.log("User found during token verification:", user);
+
+    // Proceed to reset password with the user and new password
+    const result = await resetPassword(user, newPassword);
     console.log("Password reset successful for token:", token);
 
     res.status(200).json(result); // Send success message from resetPassword

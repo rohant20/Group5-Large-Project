@@ -1,42 +1,41 @@
-const { connectToDatabase, hashPassword, returnWithError, returnWithMessage } = require("../utils");
+const bcrypt = require('bcryptjs');  // Import bcryptjs
+const { User } = require('../models/userModel');
 
-async function resetPassword(token, newPassword) {
-    // Connect to the database
-    const database = await connectToDatabase();  // This gives you the connected database
-    const users = database.collection("users");
+// Hash the password
+async function hashPassword(password) {
+    const salt = await bcrypt.genSalt(10);  // Generate a salt
+    return bcrypt.hash(password, salt);  // Hash the password with the salt
+}
 
-    console.log("Reset token to query:", token);  // Log the token you are querying with
+// Reset the password
+async function resetPassword(userData, newPassword) {
+    try {
+        console.log("Resetting password for user:", userData.email);
 
-    // Find the user by resetToken and check if the resetTokenExpiration is still valid
-    const user = await db.collection('users').findOne({
-        resetToken: token, 
-        resetTokenExpiration: { $gt: Date.now() }
-    });
-    
+        // Find the user by their ID using userModel
+        const user = await User.findById(userData._id);  // Use userModel to find the user by ID
 
-    // Log the user found and expiration check
-    console.log("User found:", user);
-    console.log("Current time:", Date.now());
-    if (user) {
-        console.log("Token expiration:", user.resetTokenExpiration);
-    } else {
-        console.log("No user found or token has expired");
+        if (!user) {
+            throw new Error("User not found");
+        }
+
+        // Hash the new password before saving
+        const hashedPassword = await hashPassword(newPassword);
+
+        // Update the user's password and clear the reset token fields
+        user.password = hashedPassword;
+        user.resetToken = undefined;  // Clear the reset token
+        user.resetTokenExpiration = undefined;  // Clear the reset token expiration
+
+        // Save the updated user
+        await user.save();
+
+        console.log("Password reset successfully for:", user.email);
+        return { success: true, message: "Password has been successfully reset." };
+    } catch (error) {
+        console.error("Error resetting password:", error);
+        throw new Error("Error resetting password.");
     }
-
-    if (!user) {
-        return res.status(400).json({ error: "Invalid or expired token" });
-    }
-
-    // Hash the new password
-    const hashedPassword = await hashPassword(newPassword);
-
-    // Update the user's password and remove the resetToken and its expiration
-    await users.updateOne(
-        { resetToken: token },
-        { $set: { password: hashedPassword }, $unset: { resetToken: "", resetTokenExpiration: "" } }
-    );
-
-    return returnWithMessage("Password has been reset successfully");
 }
 
 module.exports = { resetPassword };

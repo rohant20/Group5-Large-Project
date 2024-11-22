@@ -2,38 +2,40 @@ const { connectToDatabase, returnWithError, returnWithMessage } = require("./uti
 
 async function verifyToken(token) {
     try {
-        console.log("Verifying token:", token); // Log the token being verified
+        console.log("Verifying token:", token, "Token type:", typeof token);
 
         // Connect to the database
         const database = await connectToDatabase();
-        console.log("Connected to database successfully"); // Log successful DB connection
+        console.log("Connected to database:", database.databaseName);
 
-        console.log("Database name:", database.databaseName);
+        const users = database.collection("users");
+        console.log("Collection name:", users.collectionName);
 
-        const users = database.collection("users"); // Ensure correct collection name
-
-        // Log the query being executed
-        const trimmedToken = token.trim();
+        const trimmedToken = token.trim(); // Ensure no trailing spaces or hidden characters
         const query = {
             resetToken: trimmedToken,
-            resetTokenExpiration: { $gt: new Date() }, // Correct comparison for date
+            resetTokenExpiration: { $gt: new Date() },
         };
         console.log("Database query:", query);
 
-        // Query the database to find the user with the provided token
-        const user = await users.findOne(query);
+        // Log the raw query result using find() and toArray()
+        const cursor = users.find(query);
+        console.log("Raw query result:", await cursor.toArray()); // This will show all documents that match the query
 
-        console.log("User found during token verification:", user); // Log user object if found
+        // Now, attempt to find the user with the query
+        const user = await users.findOne(query);
+        console.log("User found during token verification:", user);
 
         if (!user) {
-            console.error("Token verification failed: invalid or expired token"); // Log error if no user found
+            console.error("Token verification failed: invalid or expired token");
             return returnWithError("Invalid or expired token");
         }
 
-        console.log("Token is valid for user:", user.email); // Log success
-        return returnWithMessage("Token is valid", { userId: user._id, email: user.email });
+        console.log("Token is valid for user:", user.email);
+        // Only return the user, without any additional message
+        return { user };
     } catch (error) {
-        console.error("Error during token verification:", error); // Log any unexpected errors
+        console.error("Error during token verification:", error);
         return returnWithError("An error occurred during token verification");
     }
 }

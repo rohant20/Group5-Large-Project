@@ -10,7 +10,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 // Function to connect to the database
 async function connectToDatabase() {
     await client.connect();  // Connect directly, no need for isConnected() anymore
-    return client.db("COP4331");  // You can change the database name here if necessary
+    return client.db("steezeeDB");  // You can change the database name here if necessary
 }
 
 // Function to generate a random token (e.g., for password reset)
