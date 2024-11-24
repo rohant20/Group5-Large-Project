@@ -32,7 +32,7 @@ resetRouter.post("/api/forgotPassword", async (req, res) => {
     await user.save();
     console.log("Generated reset token:", resetToken);
 
-    const resetLink = `http://localhost:8000/reset-password/${resetToken}`;
+    const resetLink = `http://steezee.xyz/reset-password/${resetToken}`;
     const emailContent = `Click here to reset your password: ${resetLink}`;
 
     // Send email with the reset link
