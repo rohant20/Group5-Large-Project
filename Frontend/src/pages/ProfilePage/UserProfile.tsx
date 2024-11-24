@@ -27,6 +27,7 @@ const UserProfile: React.FC = () => {
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
+                /* */
                 const response = await axios.post<User>("/fetchUserByID", { _id: "64d7c50f5b9a4e0010f8c95b" });
                 setUser(response.data);
                 setFormData(response.data); // Prepopulate form with user data

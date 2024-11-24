@@ -1,20 +1,15 @@
-import { useState } from 'react'
-import './App.css'
-import ListingApp from './ListingApp'
-import NavTop, {  } from "./components/NavTop";
-import HomePage from './pages/HomePages/homePage';
-import  SearchFeature  from './components/inventory/inventory';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import UserProfile from './pages/ProfilePage/UserProfile'; // Adjust the path as needed
 
-function App() {
- 
+const App: React.FC = () => {
+    return (
+        <Router>
+            <Routes>
+            <Route path="/" element={<UserProfile />} />
+            </Routes>
+        </Router>
+    );
+};
 
-  return (
-    <>
-    <SearchFeature />
-    <ListingApp />
-    
-    </>
-  )
-}
-
-export default App
+export default App;
