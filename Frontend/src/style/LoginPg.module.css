@@ -31,8 +31,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  
 }
 
 .card{
@@ -41,7 +39,6 @@
   border-radius: 25px;
   border: 2px solid black;
   width: 36rem;
-  height: 30rem;
 }
 
 .emailForm,
@@ -73,6 +70,10 @@
 
 .link:hover{
   color: purple;
+}
+
+.error{
+  color: red;
 }
 
 

@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const asyncHandler = require("express-async-handler");
 const { Listing, DePopListing, EbayListing, GrailedListing } = require("../models/listingModel");
+const { Image } = require('../models/imageModel');
+
 
 const getListingByID = asyncHandler(async (req, res) => {
     try {
@@ -55,6 +57,27 @@ const getListingsByUser = asyncHandler(async (req, res) => {
     }
 });
 
+const convertImage = asyncHandler(async (req, res) => {
+    try {
+        const { imageId } = req.body;
+
+        const image = await Image.findOne({
+            _id: imageId,
+        });
+
+
+
+        const convertImage = {
+            contentType: image.contentType,
+            data: image.data.toString("base64")
+        }
+        res.status(200).json(convertImage)
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+});
+
 module.exports = {
-    getListingByID, getListingsByUser
+    getListingByID, getListingsByUser, convertImage,
 }

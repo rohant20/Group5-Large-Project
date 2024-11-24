@@ -1,21 +1,46 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
+const { z } = require("zod");
 
+const BaseListingSchema = z.object({
+    clothingType: z.string(),
+    category: z.string(),
+    description: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+
+});
+
+//Platform Specific Schemas
+const openAi_depop = BaseListingSchema.extend({
+    age: z.number().optional(),
+});
+
+const openAi_ebay = BaseListingSchema.extend({
+    team: z.string().optional(),
+    player: z.string().optional(),
+    gender: z.string().optional(),
+});
+
+const openAi_grailed = BaseListingSchema.extend({
+    gender: z.string().optional(),
+    floorPrice: z.number().optional(),
+});
+
+
+
+
+//MongoDB Schema
 const baseListingSchema = mongoose.Schema({
     _id: {
         type: ObjectId,
         required: true,
         auto: true,
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    size: {
-        type: String,
-        required: true,
-    },
     title: {
+        type: String,
+        required: true,
+    },
+    category: {
         type: String,
         required: true,
     },
@@ -23,11 +48,11 @@ const baseListingSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    brand: {
-        type: String,
-        required: true,
-    },
-    count: {
+    // brand: {
+    //     type: String,
+    //     required: true,
+    // },
+    quantity: {
         type: Number,
         required: true,
     },
@@ -46,6 +71,14 @@ const baseListingSchema = mongoose.Schema({
     user: { // User who created the listing
         type: String,
         required: true,
+    },
+    images: {
+        type: ObjectId,
+        required: true,
+    },
+    platform: {
+        type: String,
+        required: true
     }
 }, {
     discriminatorKey: 'kind', // Schema inheritance
@@ -96,5 +129,8 @@ module.exports = {
     Listing,
     DePopListing,
     EbayListing,
-    GrailedListing
+    GrailedListing,
+    openAi_depop,
+    openAi_ebay,
+    openAi_grailed
 };

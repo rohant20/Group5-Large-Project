@@ -21,28 +21,126 @@ const SignUp: React.FC = () => {
   //useNavigate hook
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  //Username functions
   const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("Special characters are not allowed.");
+  const [isUsernameValid, setIsUsernameValid] = useState(false);
+
+  //Email functions
+  const [email, setEmail] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [emailError, setEmailError] = useState("Please enter a valid email address.");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailMatchError, setEmailMatchError] = useState("Emails must match.");
+  const [isEmailMatchValid, setIsEmailMatchValid] = useState(false);
+
+  //Password functions
   const [password, setPassword] = useState("");
-  // const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("Password must have 8 characters with 1 number and 1 special character.");
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [passwordMatchError, setPasswordMatchError] = useState("Passwords must match.");
+  const [isPasswordMatchValid, setIsPasswordMatchValid] = useState(false);
+
+  //Disables the button until all the isValids have been met
+  const isFormValid = isUsernameValid && isEmailValid && isEmailMatchValid && isPasswordValid && isPasswordMatchValid;
 
 
   //Username and password state handlers
   function handleEmail(e: React.ChangeEvent<HTMLInputElement>) {
-    setEmail(e.target.value);
-    console.log(email);
+    const value = e.target.value;
+    setEmail(value);
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(regex.test(value)){
+      setIsEmailValid(true);
+      setEmailError("Email is valid!");
+    } else {
+      setIsEmailValid(false);
+      setEmailError("Please enter a valid email address.");
+    }
+
+    if(value === confirmEmail){
+      setEmailMatchError("Emails match!");
+      setIsEmailMatchValid(true);
+    }else {
+      setEmailMatchError("Emails must match.");
+      setIsEmailMatchValid(false);
+    }
+
   }
+
+  function handleConfirmEmail(e: React.ChangeEvent<HTMLInputElement>){
+    const value = e.target.value;
+    setConfirmEmail(value);
+
+    if(value === email){
+      setEmailMatchError("Emails match!");
+      setIsEmailMatchValid(true);
+    } else {
+      setEmailMatchError("Emails must match.");
+      setIsEmailMatchValid(false);
+    }
+  }
+
+
 
   //Username and password state handlers
   function handleUsername(e: React.ChangeEvent<HTMLInputElement>) {
-    setUsername(e.target.value);
-    console.log(username);
+    const value = e.target.value;
+    const regex = /^[a-zA-Z0-9]*$/;
+
+    if(regex.test(value)){
+      setUsername(value);
+      setIsUsernameValid(true);
+      setUsernameError("Username looks good!");
+      console.log(value);
+    } else {
+      setIsUsernameValid(false);
+      setUsernameError("Special characters are not allowed.");
+    }
+
+    
+    
   }
 
   function handlePassword(e: React.ChangeEvent<HTMLInputElement>) {
-    setPassword(e.target.value);
-    console.log(password);
+    const value = e.target.value;
+    setPassword(value);
+    console.log(value);
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
+
+    if(regex.test(value)){
+      setIsPasswordValid(true);
+      setPasswordError("Password is valid!");
+    } else {
+      setIsPasswordValid(false);
+      setPasswordError("Password must have 8 characters with 1 number and 1 special character.");
+    }
+
+    if(value === confirmPassword){
+      setPasswordMatchError("Passwords match!");
+      setIsPasswordMatchValid(true);
+    }else {
+      setPasswordMatchError("Passwords must match.");
+      setIsPasswordMatchValid(false);
+    }
   }
+
+  function handleConfirmPassword(e: React.ChangeEvent<HTMLInputElement>){
+    const value = e.target.value;
+    setConfirmPassword(value);
+
+    if(value === password){
+      setPasswordMatchError("Passwords match!");
+      setIsPasswordMatchValid(true);
+    } else {
+      setPasswordMatchError("Passwords must match.");
+      setIsPasswordMatchValid(false);
+    }
+  }
+  
+  
 
   //Form submission
   function submitCredentials(e: React.FormEvent) {
@@ -108,12 +206,12 @@ const SignUp: React.FC = () => {
                   placeholder="Enter username"
                   className="form-control"
                 />
+                <small style={{color: isUsernameValid ? "#00FF00" : "white", width: "300px"}}>{usernameError}</small>
               </Form.Group>
 
               <Form.Group controlId="formEmail" className="mb-3">
                 <Form.Control
                   onChange={handleEmail}
-
                   placeholder="Enter email"
                   type="email"
                   className="form-control"
@@ -122,10 +220,13 @@ const SignUp: React.FC = () => {
 
               <Form.Group controlId="formEmailConfirm" className="mb-3">
                 <Form.Control
+                  onChange={handleConfirmEmail}
                   type="email"
                   placeholder="Confirm email"
                   className="form-control"
                 />
+                <small style={{color: isEmailValid ? "#00FF00" : "white", display: "block", width: "300px"}}>{emailError}</small>
+                <small style={{color: isEmailMatchValid ? "#00FF00" : "white", display: "block", width: "300px"}}>{emailMatchError}</small>
               </Form.Group>
 
               <Form.Group controlId="formPassword" className="mb-3">
@@ -139,16 +240,20 @@ const SignUp: React.FC = () => {
 
               <Form.Group controlId="formPasswordConfirm" className="mb-4">
                 <Form.Control
+                  onChange={handleConfirmPassword}
                   type="password"
                   placeholder="Confirm password"
                   className="form-control"
                 />
+                <small style={{color: isPasswordValid ? "#00FF00" : "white", display: "block", width: "300px"}}>{passwordError}</small>
+                <small style={{color: isPasswordMatchValid ? "#00FF00" : "white", display: "block", width: "300px"}}>{passwordMatchError}</small>
               </Form.Group>
 
               <Button
                 variant="primary"
                 type="submit"
                 className={styles.button}
+                disabled={!isFormValid}
               >
                 Sign Up
               </Button>

@@ -83,7 +83,7 @@ const LoginPg: React.FC = () => {
     //If the resp did not send back the expected data it throws an error
     //otherwise it will return the response
     if (resp.status == 500) {
-      throw new Error("Invalid login credentials. Please check your email and password.");
+      throw new Error("Invalid login credentials. Please check your Email and Password.");
     } else {
       return userInfo;
     }
@@ -114,7 +114,7 @@ const LoginPg: React.FC = () => {
               </Form.Group>
 
 
-              {errorMessage && <p className="error-text">{errorMessage}</p>}
+              {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
               <Button
                 variant="primary"

@@ -3,12 +3,11 @@ import React, { useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../utils/AuthProvider';
 
-import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import styles from "./NavTop.module.css"
+import logo from '../../assets/logo.jpg';
 
 const NavTop: React.FC = () => {
     const navigateTo = useNavigate();
@@ -19,6 +18,7 @@ const NavTop: React.FC = () => {
         throw new Error("useContext must be used within an AuthProvider");
     }
 
+    const { auth } = userInfo;
     const { logout } = userInfo;
 
 
@@ -28,35 +28,34 @@ const NavTop: React.FC = () => {
     }
 
     return (
-        <Navbar className={styles.navBar} expand="lg" >
-            <Container>
+        <Navbar className={styles.navBar}>
+            <Link to="/">
+                <Navbar.Brand href="#home">
+                    <img src={logo} alt="logo" className={styles.logo} />
+                </Navbar.Brand>
+            </Link>
+
+            <Nav className={styles.navContent}>
                 <Link to="/">
-                    <Navbar.Brand href="/">Steezee</Navbar.Brand>
+                    <Nav.Link href="#home">Home</Nav.Link>
                 </Link>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className={`me-auto ${styles.navContent}`}>
-                        <Link to="/inventory">
-                            <Nav.Link href="#link">My closet</Nav.Link>
-                        </Link>
-                        <Nav.Link href="#link">Listing Tool</Nav.Link>
-                        <NavDropdown title="Profile" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Account Info</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Linked Platforms
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Analytics</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item>
-                                <button onClick={handleLogOut}>
-                                    Log Out
-                                </button>
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+                <Link to="/inventory">
+                    <Nav.Link href="#link">Listing Tool</Nav.Link>
+                </Link>
+                <Link to="/inventory">
+                    <Nav.Link href="#link">Inventory</Nav.Link>
+                </Link>
+                <Link to="/profile">
+                    <Nav.Link href="#link">Profile</Nav.Link>
+                </Link>
+            </Nav >
+            <Navbar.Collapse className={styles.profile}>
+                <Navbar.Text>
+                    Signed in as: <a href="#profile">{auth.username}</a>
+                </Navbar.Text>
+                <button className={styles.button} onClick={handleLogOut}>Log Out</button>
+            </Navbar.Collapse>
+        </Navbar >
     );
 }
 

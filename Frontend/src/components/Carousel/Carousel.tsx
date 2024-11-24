@@ -10,10 +10,19 @@ import { AuthContext } from "../../utils/AuthProvider";
 
 
 interface Listing {
-  name: string;
+  title: string;
   price: number;
   description: string;
+  contentType: string;
+  data: string;
+  condition: string;
+  quantity: number;
+  size: string;
+  tags: string[];
+  platform: string;
 }
+
+
 
 const CarouselItem: React.FC = () => {
   const serverPath: string = useContext(PathContext);
@@ -27,13 +36,14 @@ const CarouselItem: React.FC = () => {
   const [products, setProducts] = useState<Listing[]>([]);
 
 
+
   async function loadListings(username: string, filter: string, filterVal: string) {
     console.log(username);
     //Make sure to change the url when it goes on the server
     const apiURL: string = serverPath + "fetchListingsByUser"
     //stores the response from the api in a variable
 
-    const payload: Object = {
+    const payload: object = {
       username: username,
       filter: filter,
       filterVal: filterVal
@@ -52,8 +62,39 @@ const CarouselItem: React.FC = () => {
     //otherwise it will return the response
     if (resp.status == 500) {
       throw new Error("Server Error");
+    } else if (!Array.isArray(listings)) {
+      throw new Error("Unexpected API response format");
     } else {
       return listings;
+    }
+
+  }
+
+  async function getImage(imageId: string) {
+    //Make sure to change the url when it goes on the server
+    const apiURL: string = serverPath + "convertImage"
+    //stores the response from the api in a variable
+
+    const payload: Object = {
+      imageId: imageId,
+    }
+    console.log(Object);
+
+    const resp = await fetch(apiURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const image = await resp.json();
+    //If the resp did not send back the expected data it throws an error
+    //otherwise it will return the response
+    if (resp.status == 500) {
+      throw new Error("Server Error");
+    } else {
+      return image;
     }
   }
 
@@ -61,23 +102,44 @@ const CarouselItem: React.FC = () => {
     console.log(authInfo.auth.username);
     loadListings(authInfo.auth.username, "", "").then(data => {
       console.log(data)
-      setProducts([...data]);
+      const updatedProducts = [...data];
+      console.log(updatedProducts)
+      for (let i = 0; i < data.length; i++) {
+        getImage(data[i].images).then(img => {
+          updatedProducts[i] = {
+            ...updatedProducts[i],
+            contentType: img.contentType,
+            data: img.data,
+          };
+          setProducts([...updatedProducts]);
+        }).catch(err => {
+          console.log(err);
+        })
+      }
+
     }).catch(err => {
       console.log(err);
     });
-  }, [serverPath]);
+  }, [serverPath, authInfo.auth.username]);
 
 
 
   return (
     <div>
       <Carousel showDots={true} responsive={responsive}>
-        {products.map((item) => (
+        {products.map((item, index) => (
           <Product
-            name={item.name}
-            url="https://images.unsplash.com/photo-1560769629-975ec94e6a86?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHByb2R1Y3RzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+            name={item.title}
+            url={`data:${item?.contentType};base64,${item?.data}`}
             price={item.price}
             description={item.description}
+            key={item.title + index}
+            condition={item.condition}
+            quantity={item.quantity}
+            size={item.size}
+            tags={item.tags}
+            title={item.title}
+            platform={item.platform}
           />
         ))}
       </Carousel>

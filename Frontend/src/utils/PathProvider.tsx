@@ -2,6 +2,7 @@ import React, { createContext } from "react";
 import { ReactNode } from "react";
 
 export const PathContext = createContext("");
+
 interface PathProviderProps {
     children: ReactNode;
 }
