@@ -20,7 +20,6 @@ const upload = multer({ storage: storage });
 
 // OpenAI Instance
 const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
 });
 
 // Helper Function to Upload Image to MongoDB
