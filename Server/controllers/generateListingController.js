@@ -19,7 +19,7 @@ const upload = multer({ storage: storage });
 
 // OpenAI Instance
 const openai = new OpenAI({
-    apiKey: "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",
+    apiKey: process.env.OPENAI_API_KEY,
 });
 
 // Helper Function to Upload Image to MongoDB
