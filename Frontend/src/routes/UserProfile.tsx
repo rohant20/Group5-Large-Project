@@ -14,6 +14,8 @@ interface User {
     username: string;
 }
 
+
+
 const UserProfile: React.FC = () => {
 
     const serverPath: string = useContext(PathContext);

@@ -15,7 +15,13 @@ interface Listing {
   description: string;
   contentType: string;
   data: string;
+  condition: string;
+  quantity: number;
+  size: string;
+  tags: string[];
+  platform: string;
 }
+
 
 
 const CarouselItem: React.FC = () => {
@@ -37,7 +43,7 @@ const CarouselItem: React.FC = () => {
     const apiURL: string = serverPath + "fetchListingsByUser"
     //stores the response from the api in a variable
 
-    const payload: Object = {
+    const payload: object = {
       username: username,
       filter: filter,
       filterVal: filterVal
@@ -56,9 +62,12 @@ const CarouselItem: React.FC = () => {
     //otherwise it will return the response
     if (resp.status == 500) {
       throw new Error("Server Error");
+    } else if (!Array.isArray(listings)) {
+      throw new Error("Unexpected API response format");
     } else {
       return listings;
     }
+
   }
 
   async function getImage(imageId: string) {
@@ -111,19 +120,26 @@ const CarouselItem: React.FC = () => {
     }).catch(err => {
       console.log(err);
     });
-  }, [serverPath]);
+  }, [serverPath, authInfo.auth.username]);
 
 
 
   return (
     <div>
       <Carousel showDots={true} responsive={responsive}>
-        {products.map((item) => (
-          < Product
+        {products.map((item, index) => (
+          <Product
             name={item.title}
             url={`data:${item?.contentType};base64,${item?.data}`}
             price={item.price}
-            description={item.description.substring(0, 50) + "..."}
+            description={item.description}
+            key={item.title + index}
+            condition={item.condition}
+            quantity={item.quantity}
+            size={item.size}
+            tags={item.tags}
+            title={item.title}
+            platform={item.platform}
           />
         ))}
       </Carousel>

@@ -1,4 +1,5 @@
-import Product from "../Carousel/Product.js";
+import Product from "../Carousel/Product.tsx";
+
 import { useContext, useEffect, useState } from "react";
 
 
@@ -12,6 +13,11 @@ interface Listing {
   description: string;
   contentType: string;
   data: string;
+  condition: string;
+  quantity: number;
+  size: string;
+  tags: string[];
+  platform: string;
 }
 
 
@@ -115,15 +121,20 @@ const EbayInven = () => {
   return (
     <div className="container">
       <div className="row">
-        {products.map((item) => (
-          <div className="col-md-4">
-            < Product
-              name={item.title}
-              url={`data:${item?.contentType};base64,${item?.data}`}
-              price={item.price}
-              description={item.description.substring(0, 50) + "..."}
-            />
-          </div>
+        {products.map((item, index) => (
+          <Product
+            name={item.title}
+            url={`data:${item?.contentType};base64,${item?.data}`}
+            price={item.price}
+            description={item.description}
+            key={item.title + index}
+            condition={item.condition}
+            quantity={item.quantity}
+            size={item.size}
+            tags={item.tags}
+            title={item.title}
+            platform={item.platform}
+          />
         ))}
       </div>
     </div>
