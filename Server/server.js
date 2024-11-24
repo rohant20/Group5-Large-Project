@@ -26,8 +26,12 @@ dotenv.config();
 mongoose.connect(dbURL, { dbName: 'steezeeDB', }).then(() => {
     console.log("Database is connected sucessfully!");
 
-    app.use(cors());            //CORS-enables all routes
-    app.use(express.json());    //JSON formatting middleware provided by Express
+    app.use(cors());
+    app.use(express.urlencoded({
+        extended: true
+    }));   //JSON formatting middleware provided by Express
+    //CORS-enables all routes
+    app.use(express.json());
 
     //Routes
 
