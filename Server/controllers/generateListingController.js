@@ -11,8 +11,9 @@ const { DePopListing,
     openAi_ebay,
     openAi_grailed
 } = require("../models/listingModel");
+const dotenv = require("dotenv");
 
-
+dotenv.config();
 // Storage Configuration for Multer
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
