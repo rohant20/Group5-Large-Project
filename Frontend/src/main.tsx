@@ -11,6 +11,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PathProvider from './utils/PathProvider.tsx'
 import AuthProvider from './utils/AuthProvider.tsx'
 import PrivateRoutes from './utils/PrivateRoutesProvider.tsx'
+import UserProfile from './routes/UserProfile.tsx'
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
       {
         path: "/inventory",
         element: <ListingApp />
-      }
+      },
+      {
+        path: "/profile",
+        element: <UserProfile />
+      },
     ]
   },
   {

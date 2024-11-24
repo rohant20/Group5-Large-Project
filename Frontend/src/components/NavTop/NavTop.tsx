@@ -41,12 +41,9 @@ const NavTop: React.FC = () => {
                         </Link>
                         <Nav.Link href="#link">Listing Tool</Nav.Link>
                         <NavDropdown title="Profile" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Account Info</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Linked Platforms
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Analytics</NavDropdown.Item>
-                            <NavDropdown.Divider />
+                            <Link to="/profile">
+                                <NavDropdown.Item href="#link">Account Info</NavDropdown.Item>
+                            </Link>
                             <NavDropdown.Item>
                                 <button onClick={handleLogOut}>
                                     Log Out
