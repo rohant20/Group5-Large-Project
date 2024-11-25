@@ -20,7 +20,7 @@ const PathProvider: React.FC<PathProviderProps> = ({ children }) => {
     function buildPath(): string {
         //"true" == server environment
         //"false" == localhost environment
-        if (false) {
+        if (true) {
             return 'http://' + app_name + ':5000/';
         }
         else {

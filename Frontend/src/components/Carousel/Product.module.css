@@ -143,3 +143,42 @@
 .editButton:hover {
   background: rgb(21, 140, 225);
 }
+
+/* edit form css */
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 0.5rem;
+  font-weight: bold; /* Optional: makes the label stand out */
+}
+
+.formGroup input,
+.formGroup textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.deleteButton{
+  margin-top: 16px;
+  padding: 8px 16px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteButton:hover{
+  background: red;
+}

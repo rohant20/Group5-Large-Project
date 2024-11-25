@@ -20,6 +20,7 @@ interface Listing {
   size: string;
   tags: string[];
   platform: string;
+  _id: string;
 }
 
 
@@ -140,6 +141,7 @@ const CarouselItem: React.FC = () => {
             tags={item.tags}
             title={item.title}
             platform={item.platform}
+            id={item._id}
           />
         ))}
       </Carousel>

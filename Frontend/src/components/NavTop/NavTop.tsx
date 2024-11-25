@@ -40,13 +40,10 @@ const NavTop: React.FC = () => {
                     <Nav.Link href="#home">Home</Nav.Link>
                 </Link>
                 <Link to="/inventory">
-                    <Nav.Link href="#link">Listing Tool</Nav.Link>
-                </Link>
-                <Link to="/inventory">
-                    <Nav.Link href="#link">Inventory</Nav.Link>
+                    <Nav.Link href="#inventory">Inventory</Nav.Link>
                 </Link>
                 <Link to="/profile">
-                    <Nav.Link href="#link">Profile</Nav.Link>
+                    <Nav.Link href="#profile">Profile</Nav.Link>
                 </Link>
             </Nav >
             <Navbar.Collapse className={styles.profile}>
