@@ -9,19 +9,16 @@ const { userRouter } = require("./routers/fetchUserRouter");
 const { deleteUserRouter } = require("./routers/deleteUserRouter");
 const { changePasswordRouter } = require("./routers/changePasswordRouter");
 const { listingRouter } = require("./routers/fetchListingRouter");
+const { listingUpdateRouter } = require("./routers/UpdateListingsRouter");
 
-
-const { resetRouter } = require("./routers/resetPasswordRouter"); // Import the reset password router
+// const { resetRouter } = require("./routers/resetPasswordRouter"); // Import the reset password router
 
 
 const app = express();
-const port = process.env.PORT || 8000;
 const dbURL = 'mongodb+srv://root:GroupFive5@cop4331db.jh3zx.mongodb.net/?retryWrites=true&w=majority&appName=COP4331DB';
 
 // Middleware to parse JSON
 app.use(express.json());
-
-dotenv.config();
 
 
 
@@ -56,13 +53,17 @@ mongoose.connect(dbURL, { dbName: 'steezeeDB', }).then(() => {
     // /fetchUserByID {"_id": "1234"} -> {_id, username, email, password} 
     // /fetchUserByUsername {"username": "user"} -> {_id, username, email, password}
 
-    app.use(resetRouter);
+    // app.use(resetRouter);
 
 
     app.use(listingRouter);         // Fetches listings by ID or Username
     // /fetchListingByID {"_id": "1234"} -> { _id, name, size, title, price, brand, count, condition, description, tags}
     // /fetchListingsByUser {"username": "user"} -> [{ _id, name, size, title, price, brand, count, condition, description, tags}]
-    app.listen(5000, () => { console.log(`Server up and running on ${port}`); }); //Opens port/starts server
+
+    app.use(listingUpdateRouter);   // Edits or Deletes Listing by ID
+
+
+    app.listen(5000, () => { console.log(`Server up and running on 5000`); }); //Opens port/starts server
 }).catch(err => {
     console.log(err);
 });
