@@ -47,8 +47,8 @@ const router = createBrowserRouter([
     element: <LoginPg />
   },
   {
-    path: "/reset",
-    element: <ResetPass />
+    path: "/reset/:token",
+    element: <ResetPass/>
   },
 
 

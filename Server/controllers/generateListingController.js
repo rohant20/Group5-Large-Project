@@ -18,30 +18,30 @@ dotenv.config();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// OpenAI Instance
-const openai = new OpenAI({
-});
+// // OpenAI Instance
+// const openai = new OpenAI({
+// });
 
-// Helper Function to Upload Image to MongoDB
-const uploadImageToDB = async (imgFile) => {
-    try {
+// // Helper Function to Upload Image to MongoDB
+// const uploadImageToDB = async (imgFile) => {
+//     try {
 
 
-        const image = await Image.create({
-            data: imgFile.buffer,
-            contentType: imgFile.mimetype,
-        });
+//         const image = await Image.create({
+//             data: imgFile.buffer,
+//             contentType: imgFile.mimetype,
+//         });
 
-        return {
-            contentType: image.contentType,
-            data: image.data.toString("base64"), // Convert to Base64
-            _id: image._id,
-        };
+//         return {
+//             contentType: image.contentType,
+//             data: image.data.toString("base64"), // Convert to Base64
+//             _id: image._id,
+//         };
 
-    } catch (error) {
-        throw new Error(error);
-    }
-};
+//     } catch (error) {
+//         throw new Error(error);
+//     }
+// };
 
 // Function to Generate Listings via OpenAI
 const generateListingDetails = async (platform, imageData, message, schema) => {

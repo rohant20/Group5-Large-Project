@@ -17,9 +17,15 @@ interface ProductProps {
 
 const Product: React.FC<ProductProps> = ({ url, name, price, description, condition, quantity, size, tags, title, platform }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [isEditMode, setEditMode] = useState(false);
 
   const togglePopup = () => {
     setPopupVisible(!isPopupVisible);
+    setEditMode(false);
+  }
+
+  const toggleEditMode = () => {
+    setEditMode(!isEditMode);
   }
 
   const popup = isPopupVisible && (
@@ -33,44 +39,80 @@ const Product: React.FC<ProductProps> = ({ url, name, price, description, condit
         className={style.popupContent}
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the popup
       >
-        <h2>{name}</h2>
-        <h3>Qty: {quantity}</h3>
-        <div className={style.row}>
-          <h6 className={style.plat}>Selling on {platform}</h6>
-          {title === "Accessories" ? (
-            <h6 className={style.size}>Size: {size}</h6>
-          ) : (
-            <h6 className={style.size}>
-              {title.endsWith("s") ? title.slice(0, -1) : title} Size: {size}
+        {isEditMode ? (
+          <form>
+            <h2>Edit Product</h2>
+            <label>
+              Name:
+              <input type="text" defaultValue={name} />
+            </label>
+            <label>
+              Price:
+              <input type="number" defaultValue={price} />
+            </label>
+            <label>
+              Description:
+              <textarea defaultValue={description}></textarea>
+            </label>
+            <label>
+              Condition:
+              <input type="text" defaultValue={condition} />
+            </label>
+            <label>
+              Size:
+              <input type="text" defaultValue={size} />
+            </label>
+            <div className={style.row}>
+              <button type="button" onClick={toggleEditMode}>
+                Cancel
+              </button>
+              <button type="submit">Save</button>
+            </div>
+          </form>
+        ) : (
+          <>
+            <h2>{name}</h2>
+            <h3>Qty: {quantity}</h3>
+            <div className={style.row}>
+              <h6 className={style.plat}>Selling on {platform}</h6>
+              {title === 'Accessories' ? (
+                <h6 className={style.size}>Size: {size}</h6>
+              ) : (
+                <h6 className={style.size}>
+                  {title.endsWith('s') ? title.slice(0, -1) : title} Size: {size}
+                </h6>
+              )}
+            </div>
+            <div className={style.row}>
+              <h6>Cond: {condition}</h6>
+            </div>
+            <img className={style.image} src={url} alt="product image" />
+            <p className={style.price}>${price}</p>
+            <p>{description}</p>
+            <h6 className={style.tag}>
+              Tags: &nbsp;
+              <div className={style.line}>
+                {tags.map((tag, index) => (
+                  <span key={index} className={style.tagItems}>
+                    [{tag}]
+                  </span>
+                ))}
+              </div>
             </h6>
-          )}
-        </div>
-        <div className={style.row}>
-          <h6>Cond: {condition}</h6>
-        </div>
-        <img className={style.image} src={url} alt="product image" />
-        <p className={style.price}>${price}</p>
-        <p>{description}</p>
-        <h6 className={style.tag}>Tags: &nbsp;
-          <div className={style.line}>
-            {tags.map((tag, index) => (
-              <span key={index} className={style.tagItems}>
-                [{tag}]
-              </span>
-            ))}
-          </div>
-        </h6>
-        <div className={style.row}>
-          <button onClick={togglePopup} className={style.closeButton}>
-            Close
-          </button>
-          <button className={style.editButton}>
-            Edit
-          </button>
-        </div>
+            <div className={style.row}>
+              <button onClick={togglePopup} className={style.closeButton}>
+                Close
+              </button>
+              <button onClick={toggleEditMode} className={style.editButton}>
+                Edit
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
+
 
 
   return (

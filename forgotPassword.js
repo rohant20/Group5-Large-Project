@@ -29,7 +29,7 @@ app.post('/forgotPassword', async (req, res) => {
 
         // Generate a reset token (you can use a library like `uuid` for unique tokens)
         const resetToken = 'sample-reset-token'; // Replace with a secure token generation logic
-        const resetLink = `http://localhost:8000/resetPassword/${resetToken}`;
+        const resetLink = `http://localhost:5173/resetPassword/${resetToken}`;
         
         // Store reset token and expiration in the database
         user.resetToken = resetToken;
@@ -57,5 +57,5 @@ app.get('/reset-password/:resetToken', (req, res) => {
 });
 
 app.listen(8000, () => {
-    console.log('Server running on http://localhost:8000');
+    console.log('Server running on http://localhost:5173');
 });

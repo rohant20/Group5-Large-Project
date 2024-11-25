@@ -58,6 +58,7 @@ body {
 
   .emailForm{
     margin-bottom: 20px;
+    
   }
 
   .button{
@@ -84,4 +85,13 @@ body {
   .link:hover{
     color: purple;
   }
+
+  .error{
+    color: red;
+  }
+
+  .success{
+    color: white;
+  }
+  
   
